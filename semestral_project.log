@@ -1,0 +1,231 @@
+This is LuaTeX, Version 1.13.0 (TeX Live 2021)  (format=optex 2021.9.29)  2 OCT 2021 15:25
+ restricted system commands enabled.
+**/Users/danko/semestral_project/semestral_project.tex
+(/Users/danko/semestral_project/semestral_project.tex
+This is OpTeX (Olsak's Plain TeX), version <1.01 Mar.2021>
+(./semestral_project.ref)
+\openout0 = semestral_project.ref
+ (./ctustyle3.tex
+CTUstyle3: Thesis at Czech Technical University in Prague, <Jul.2021 beta(m)>
+\faculty=\toks297
+\department=\toks298
+\title=\toks299
+\subtitle=\toks300
+\author=\toks301
+\supervisor=\toks302
+\date=\toks303
+\studyinfo=\toks304
+\authorinfo=\toks305
+\workinfo=\toks306
+\workname=\toks307
+\pagetwo=\toks308
+\titleEN=\toks309
+\titleCZ=\toks310
+\titleSK=\toks311
+\subtitleEN=\toks312
+\subtitleCZ=\toks313
+\subtitleSK=\toks314
+\abstractEN=\toks315
+\abstractCZ=\toks316
+\abstractSK=\toks317
+\keywordsEN=\toks318
+\keywordsCZ=\toks319
+\keywordsSK=\toks320
+\thanks=\toks321
+\declaration=\toks322
+\specification=\toks323
+
+(/usr/local/texlive/2021/texmf-dist/tex/luatex/optex/base/f-technika.opm
+luaotfload | conf : Root cache directory is "/Users/danko/Library/texlive/2021/t
+exmf-var/luatex-cache/generic/names".
+luaotfload | init : Loading fontloader "fontloader-2021-01-07.lua" from kpse-res
+olved path "/usr/local/texlive/2021/texmf-dist/tex/luatex/luaotfload/fontloader-
+2021-01-07.lua".
+"luaotfload@noligature"=\attribute1
+"luaotfload@syllabe"=\attribute2
+luaotfload | init : Context OpenType loader version 0x1.8e76c8b439581p+1
+"luaotfload_color_attribute"=\attribute3
+luaotfload | conf : Root cache directory is "/Users/danko/Library/texlive/2021/t
+exmf-var/luatex-cache/generic/names".
+luaotfload | db : Font names database loaded from /Users/danko/Library/texlive/2
+021/texmf-var/luatex-cache/generic/names/luaotfload-names.luc
+luaotfload | db : Reload initiated (formats: otf,ttf,ttc); reason: File not foun
+d: "Technika-Regular".
+FONT: [Technika] -- \Technika (Fonts from visual style of CTU in Prague)
+ mods:{\caps \light } vars:{\rm \bf \it \bi \stencil } math:{}
+Modifiers:
+ \light ..... ligher variants: \rm \bf =light \bf \bi =normal
+ \book ...... semi-ligher variants: \rm \bf =book \bf \bi =bold
+ \caps ...... caps & small caps
+Special variant:
+ \stencil ... dashed leters (only uppercase)
+ 
+) (/usr/local/texlive/2021/texmf-dist/tex/luatex/optex/base/f-lmfonts.opm
+FONT: [Latin Modern] -- \LMfonts (TeX Gyre fonts based on Coputer Modern)
+ mods:{\roman \sans \quotset \ttset \ttprop \ttlight \ttcond \upital \dunhill s
+ubmods:\caps \slant \nbold \bolder } vars:{\rm \bf \it \bi \tt } math:{LM}
+Modifiers (selects subfamily):
+ \modreset .. implicit values (serif, bold extended, nocaps)
+ \sans ...... sans serif subfamily
+ \quotset ... quotation subfamily
+ \ttset ..... typewriter subfamily
+ \ttprop .... proportional typewriter-like subfamily
+ \ttlight ... light typewriter subfamily
+ \ttcond .... condensed typewriter subfamily
+ \upital .... upright italic (only \rm )
+ \dunhill ... dunhill roman subfamily (only \rm , \it )
+Sub-modifiers (selects special variants of given subfamily):
+ \caps ...... caps & small caps (available only at limited shapes)
+ \slant ..... slanted (default in some subfamilies)
+ \nbold ..... normal bold (extended bold is default)
+ \bolder .... extended bold
+ 
+MATH-FONT: "[latinmodern-math]" -- unicode math prepared.
+(/usr/local/texlive/2021/texmf-dist/tex/luatex/optex/base/unimath-codes.opm
+Uni math codes <2021-03-11>
+(/usr/local/texlive/2021/texmf-dist/tex/luatex/optex/base/mathclass.opm)
+(/usr/local/texlive/2021/texmf-dist/tex/luatex/optex/base/unimath-table.opm)))
+\_ctustyle_leftbox=\box261
+\_ctustyle_rightbox=\box262
+\_ctustyle_frontht=\dimen292
+\_ctustyle_tocbox=\box263
+\_ctustyle_tofbox=\box264
+\_ctustyle_totbox=\box265
+\_ctustyle_appnum=\count299
+\_ctustyle_maxglosindent=\dimen293
+\_ctustyle_rfcnum=\count300
+)
+Loading hyphenation Czech: (cs) \language=115
+
+(/usr/local/texlive/2021/texmf-dist/tex/generic/hyph-utf8/patterns/tex/hyph-cs.
+tex) [-1{/usr/local/texlive/2021/texmf-var/fonts/map/pdftex/updmap/pdftex.map}<.
+/ctulogo-new.pdf>] [-2] [-3] [-4] [-5] [-6] [1]
+Overfull \hbox (8.29874pt too wide) in paragraph at lines 31--32
+\_tenrm https://cambridge-se-man-tics.com/blog/semantic-university/intro-semant
+ic-web/towards-|
+
+\hbox(8.25+2.75)x415.41025, direction TLT
+.\localpar
+..\localinterlinepenalty=0
+..\localbrokenpenalty=0
+..\localleftbox=null
+..\localrightbox=null
+.\_tenrm h
+.\kern-0.308 (font)
+.\_tenrm t
+.\_tenrm t
+.\_tenrm p
+.\_tenrm s
+.\_tenrm :
+.\_tenrm /
+.\_tenrm /
+.\_tenrm c
+.\_tenrm a
+.\_tenrm m
+.\kern-0.308 (font)
+.\_tenrm b
+.\_tenrm r
+.\_tenrm i
+.\_tenrm d
+.\_tenrm g
+.\_tenrm e
+.\discretionary (penalty 50)
+..< \_tenrm -
+.\_tenrm s
+.\_tenrm e
+.\discretionary (penalty 50)
+..< \_tenrm -
+.\_tenrm m
+.\_tenrm a
+.\_tenrm n
+.\discretionary (penalty 50)
+..< \_tenrm -
+..= \kern-0.308 (font)
+.\_tenrm t
+.\_tenrm i
+.\_tenrm c
+.\_tenrm s
+.\_tenrm .
+.\_tenrm c
+.\_tenrm o
+.\_tenrm m
+.\_tenrm /
+.\_tenrm b
+.\_tenrm l
+.\_tenrm o
+.\_tenrm g
+.\_tenrm /
+.\_tenrm s
+.\_tenrm e
+.\_tenrm m
+.\_tenrm a
+.\_tenrm n
+.\kern-0.308 (font)
+.\_tenrm t
+.\_tenrm i
+.\_tenrm c
+.\discretionary (penalty 50)
+..< \_tenrm -
+..= \_tenrm -
+.\_tenrm u
+.\_tenrm n
+.\_tenrm i
+.\_tenrm v
+.\kern-0.308 (font)
+.\_tenrm e
+.\_tenrm r
+.\_tenrm s
+.\_tenrm i
+.\_tenrm t
+.\kern-0.308 (font)
+.\_tenrm y
+.\_tenrm /
+.\_tenrm i
+.\_tenrm n
+.\kern-0.308 (font)
+.\_tenrm t
+.\_tenrm r
+.\_tenrm o
+.\discretionary (penalty 50)
+..< \_tenrm -
+..= \_tenrm -
+.\_tenrm s
+.\_tenrm e
+.\_tenrm m
+.\_tenrm a
+.\_tenrm n
+.\kern-0.308 (font)
+.\_tenrm t
+.\_tenrm i
+.\_tenrm c
+.\discretionary (penalty 50)
+..< \_tenrm -
+..= \_tenrm -
+.\_tenrm w
+.\kern-0.308 (font)
+.\_tenrm e
+.\_tenrm b
+.\_tenrm /
+.\_tenrm t
+.\_tenrm o
+.\kern-0.308 (font)
+.\_tenrm w
+.\kern-0.308 (font)
+.\_tenrm a
+.\_tenrm r
+.\_tenrm d
+.\_tenrm s
+.\_tenrm -
+.\discretionary (penalty 50)
+.\glue(\rightskip) 0.0
+.\rule(*+*)x5.0
+
+[2] [3])<./Technika-Book.otf></usr/local/texlive/2021/texmf-dist/fonts/opentype/
+public/lm/lmroman10-regular.otf><./Technika-Bold.otf>
+Output written on semestral_project.pdf (9 pages, 26578 bytes).
+
+PDF statistics: 133 PDF objects out of 1000 (max. 8388607)
+ 110 compressed objects within 2 object streams
+ 21 named destinations out of 1000 (max. 131072)
+ 97 words of extra memory for PDF output out of 10000 (max. 100000000)
+

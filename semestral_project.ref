@@ -1,0 +1,23 @@
+%% OPTeX <1.01 Mar.2021> - REF file (\_inputref)
+\Xrefversion{5}
+% \refdecl:
+\_def \_ctustyle_totlist {} \_def \_ctustyle_toflist {}
+ \_def \_ctustyle_Xtab #1#2#3{\_addto \_ctustyle_totlist {\_ctustyle_totline {#1}{#2}{#3}}}
+ \_def \_ctustyle_Xfig #1#2#3{\_addto \_ctustyle_toflist {\_ctustyle_tofline {#1}{#2}{#3}}} 
+\_Xpage{1}{i}
+\_Xpage{2}{ii}
+\_Xpage{3}{iii}
+\_Xpage{4}{iv}
+\_Xpage{5}{v}
+\_Xpage{6}{vi}
+\_Xpage{7}{1}
+\_Xtoc{1}{chap}{1}{}Úvod
+\_Xtoc{2}{sec}{1.1}{}Myšlenka
+\_Xpage{8}{2}
+\_Xtoc{1}{chap}{2}{}Úvod do sémantických technologií
+\_Xtoc{2}{sec}{2.1}{}Historie, Web verze,
+\_Xtoc{2}{sec}{2.2}{}Vývoj v posledních letech
+\_Xpage{9}{3}
+\_Xtoc{1}{chap}{3}{}Slovník gov
+\_Xtoc{2}{sec}{3.1}{}Popis
+\_Xtoc{2}{sec}{3.2}{}Popis endpointu
