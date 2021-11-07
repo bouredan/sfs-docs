@@ -12,12 +12,21 @@
 \_Xpage{6}{vi}
 \_Xpage{7}{1}
 \_Xtoc{1}{chap}{1}{}Úvod
-\_Xtoc{2}{sec}{1.1}{}Myšlenka
 \_Xpage{8}{2}
 \_Xtoc{1}{chap}{2}{}Úvod do sémantických technologií
 \_Xtoc{2}{sec}{2.1}{}Historie, Web verze,
 \_Xtoc{2}{sec}{2.2}{}Vývoj v posledních letech
 \_Xpage{9}{3}
-\_Xtoc{1}{chap}{3}{}Slovník gov
+\_Xtoc{1}{chap}{3}{}Facetové vyhledávání
 \_Xtoc{2}{sec}{3.1}{}Popis
-\_Xtoc{2}{sec}{3.2}{}Popis endpointu
+\_Xtoc{2}{sec}{3.2}{}Typy facetů
+\_Xtoc{3}{secc}{3.2.1}{}Basic facet
+\_Xtoc{3}{secc}{3.2.2}{}Range facet
+\_Xtoc{3}{secc}{3.2.3}{}Bucket facet
+\_Xtoc{2}{sec}{3.3}{}Srovnání přístupů (platforem)
+\_Xpage{10}{4}
+\_Xtoc{1}{chap}{4}{}Slovník.gov.cz
+\_Xtoc{2}{sec}{4.1}{}Popis
+\_Xtoc{2}{sec}{4.2}{}Popis endpointu
+\_Xpage{11}{5}
+\_Xtoc{1}{chap}{5}{}Popis implementace

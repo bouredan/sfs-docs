@@ -1,7 +1,7 @@
-This is LuaTeX, Version 1.13.0 (TeX Live 2021)  (format=optex 2021.9.29)  2 OCT 2021 15:25
+This is LuaTeX, Version 1.13.0 (TeX Live 2021)  (format=optex 2021.9.29)  7 NOV 2021 15:24
  restricted system commands enabled.
-**/Users/danko/semestral_project/semestral_project.tex
-(/Users/danko/semestral_project/semestral_project.tex
+**/Users/danko/sfs-docs/semestral_project.tex
+(/Users/danko/sfs-docs/semestral_project.tex
 This is OpTeX (Olsak's Plain TeX), version <1.01 Mar.2021>
 (./semestral_project.ref)
 \openout0 = semestral_project.ref
@@ -100,7 +100,7 @@ Loading hyphenation Czech: (cs) \language=115
 (/usr/local/texlive/2021/texmf-dist/tex/generic/hyph-utf8/patterns/tex/hyph-cs.
 tex) [-1{/usr/local/texlive/2021/texmf-var/fonts/map/pdftex/updmap/pdftex.map}<.
 /ctulogo-new.pdf>] [-2] [-3] [-4] [-5] [-6] [1]
-Overfull \hbox (8.29874pt too wide) in paragraph at lines 31--32
+Overfull \hbox (8.29874pt too wide) in paragraph at lines 27--28
 \_tenrm https://cambridge-se-man-tics.com/blog/semantic-university/intro-semant
 ic-web/towards-|
 
@@ -220,12 +220,12 @@ ic-web/towards-|
 .\glue(\rightskip) 0.0
 .\rule(*+*)x5.0
 
-[2] [3])<./Technika-Book.otf></usr/local/texlive/2021/texmf-dist/fonts/opentype/
-public/lm/lmroman10-regular.otf><./Technika-Bold.otf>
-Output written on semestral_project.pdf (9 pages, 26578 bytes).
+[2] [3] [4] [5])<./Technika-Book.otf></usr/local/texlive/2021/texmf-dist/fonts/o
+pentype/public/lm/lmroman10-regular.otf><./Technika-Bold.otf>
+Output written on semestral_project.pdf (11 pages, 29991 bytes).
 
-PDF statistics: 133 PDF objects out of 1000 (max. 8388607)
- 110 compressed objects within 2 object streams
- 21 named destinations out of 1000 (max. 131072)
- 97 words of extra memory for PDF output out of 10000 (max. 100000000)
+PDF statistics: 185 PDF objects out of 1000 (max. 8388607)
+ 160 compressed objects within 2 object streams
+ 30 named destinations out of 1000 (max. 131072)
+ 153 words of extra memory for PDF output out of 10000 (max. 100000000)
 
