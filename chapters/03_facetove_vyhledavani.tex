@@ -1,25 +1,49 @@
 \chap Facetové vyhledávání
+V této kapitole si popíšeme co je facetové vyhledávání a k čemu se primárně využívá. Zanalyzujeme a srovnáme pak různé přístupy k implementaci
+facetového vyhledávání, především z hlediska využití sémantických technologií. Abychom získali přehled o používaných řešení facetového vyhledávání, zanalyzujeme 
+poskytované Facet Search APIs největších společností v této oblasti jako Elastic či Solr.
 
 \sec Popis
-Z hlediska SEO je důležité, aby nevznikali duplikátní URL pro stejný obsah. \cite[facet-search-best-practices].
-    
+\medskip
+\picw=15cm \cinspic images/facets-explained.jpeg
+\caption/f Ukázka facetů s vysvětlivkami. \cite[facets-explained-image]
+\medskip
+Facetové vyhledávání je zatřídění vyhledaných výsledků do různých kategorií (facetů) dle kterých se dá sada výsledků dále filtrovat.
+Dá se ním tak obohatit každé vyhledávání, ale často bývá spojeno s fulltextovým vyhledáváním (TODO možná někde vysvětlit co to je), aby uživateli umožnilo jeho dotaz dále upřesnit.
+Hojně se využívá třeba v e-commerce sektoru, kde podle studie Nielsen Norman Group (NNG) z roku 2018 jsou e-shopy bez facetového vyhledávání výjimkou.\cite[nng-study]
+Jelikož není definovaný žádný standard facetového vyhledávání, zadefinujeme si, co by měl takový modul facetového vyhledávání splňovat:
+\begitems
+* facet obsahuje hodnotu pro každý výsledek ze sady výsledků
+* jednotlivé facety lze kombinovat mezi sebou
+* mezi kritérii facetů platí logický AND (ne pouze OR), tzn. aby se výsledek objevil v sadě výsledku, musí vyhovět všem aktivním facetům
+* hodnoty facetů ukazují počet výsledků, které aplikování facetu s danou hodnotou v aktuálním stavu vrátí
+* hodnoty facetů, které by vrátily prázdnou sadu výsledků se nezobrazují nebo jsou \uv{disabled}\fnote{Jejich HTML ovládací prvek má atribut disabled.}
+\enditems
+
 \sec Typy facetů
-Typy facetů lze řadit dle toho jaké hodnoty a jakým způsobem jdou navolit. 
+Typy facetů řadíme dle toho jaké hodnoty a jakým způsobem jdou navolit. 
     \secc Basic facet
     Základní typ facetu s možností volby nejvýše jedné hodnoty podle které je pak sada výsledků filtrována. Ovládácím prvkem bývá select element.
 
+    \secc Checkbox facet
+    Facet s možností volby více hodnot skrz zaškrtávání checkboxů.
+
     \secc Range facet
-	Facet s možností nastavení rozsahu
+	Facet pro číslená data s možností nastavení rozsahu. Ovládácím prvkem bývá posuvník (input element s hodnoutou atributu type range).
 
 	\secc Bucket facet
-	Podobné jako basic facet, akorát kategorie jsou vytvořeny dle částí rozsahu.
+	Podobné jako range facet, akorát se neovládá posuvníkem, ale jsou nadefinovány rozsahy, do kterých se pak výsledky roztřídí.
 		
 \sec Srovnání přístupů
-Řešení jak implementovat facetové vyhledávání je více. Lze je rozdělit do 2 hlavních kategorií podle toho, kde dochází k filtraci výsledků dle facetů, tedy buďto na 
-klientské straně či na straně serveru. Mezi těmito kategoriemi se pak rozhodujeme podle toho, co je v našem případě rychlejší, častější se však zdá být filtrování na straně serveru.
-    \secc Staticky definované facety
-	1. fetchovani jen results co chci (filter na serveru) vs filter na client side
-	3. search results obsahují facety eg. https://www.npmjs.com/package/@ebi-gene-expression-group/scxa-faceted-search-results
+Řešení jak implementovat facetové vyhledávání je více. 
+Obecně je lze rozdělit podle toho, kde dochází k filtraci výsledků aktivními facety, tedy buďto na straně klienta či na straně serveru.
+U implementace facetového vyhledávání je také nutné myslet na to jakým způsobem se budou plnit data facetů. Nejčastěji se setkáváme s tím, že se
+hodnoty facetů posílají ve stejné response jako sada výsledků. TODO modul vs server ještě
+
+    \secc Filtrování na straně klienta
+
+    \secc Filtrování na straně serveru
+	search results obsahují facety eg. https://www.npmjs.com/package/@ebi-gene-expression-group/scxa-faceted-search-results
 	
     \sec Převedení do sémantického světa
 	.
