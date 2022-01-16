@@ -20,10 +20,6 @@
 * SPARQL cheatsheet - https://www.iro.umontreal.ca/~lapalme/ift6281/sparql-1_1-cheat-sheet.pdf
 * Supernatural - a natural way of building SPARQL queries - https://github.com/sparna-git/Sparnatural
 
-### Materiály k TeXu a template
-* OpTeX docs - http://petr.olsak.net/ftp/olsak/optex/optex-doc.pdf
-* CTUStyle template doc - http://petr.olsak.net/ftp/olsak/ctustyle/ctustyle3-doc.pdf
-
 ## Otázky
 - ontologie http://purl.org/dc/terms/, onto.fel.cvut.cz nebo skos?
 - dbpedia.org, permissions
