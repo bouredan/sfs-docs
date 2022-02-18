@@ -1,0 +1,66 @@
+\chap Sémantický web
+V této kapitole se seznámíme s pojmem sémantický web a popíšeme si klíčové technologie týkající se tohoto pojmu. 
+Ty jsou zásadní pro pochopení fungování světa sémantických dat, a tak tedy i k pochopení této práce.
+
+\sec Co je sémantický web?
+Myšlenka sémantického webu byla poprvé veřejnosti předvedena 17. května 2001, kdy v časopise Scientific American vyšel článek The Semantic Web \cite[scientific-american-article].
+Autory tohoto článku byli Tim Berners-Lee (zakladatel \glref{WWW}), James Hendler a Ora Lassila, všichni tři jsou zásadními postavami ve vývoji sémantického webu.
+Na začátku tohoto článku popisují poměrně futuristickou scénku, kde po otevření webové stránky je zařízení schopné samo kompletně porozumět obsahu této stránky. 
+Tedy veškerým informacím na ní napsané, včetně odkazů na jiné stránky a vztahů mezi nimi. 
+Díky tomu pak pouze skrze komunikaci s dalšími stránkami naplánuje návštěvu lékaře, včetně toho, aby vyhovoval jejím časovým podmínkám, byl blízko domu či byl pokryt její pojišťovnou.
+Klíčové je zde to, že to zařízení zvládlo jen za pomocí webu, díky strojově čitelným standardizovaným datům na webových stránkách.
+
+Sémantický web se tak má stát novým evolučním stupněm stávajícího webu (velmi často je nazýván také jako Web 3.0, ale fakticky je spíše jeho částí), kde jsou informace uloženy podle standardizovaných pravidel, což usnadňuje jejich vyhledávání a zpracování \cite[cambridge-semantics]. 
+Ony standardizované pravidla jsou hlavně Resource Description Framework (\glref{RDF}) a Web Ontology Language (\glref{OWL}).
+Ty byly vyvinuty mezinárodním konsorciem \glref{W3C}, které ve společnosti s veřejností vyvíjí i jiné webové standardy, pomocí nichž, chtějí rozvinout web do plného potenciálu.
+Pro ověření pravosti dokumentů (a jejich informací) využívá sémantický web také třeba digitální podpisy a šifrování \cite[w3c-semantic-web-security].
+
+\sec Úvod do sémantických technologií
+\secc RDF
+\medskip
+\picw=15cm \cinspic images/rdf-triples.png
+\caption/f Ukázka RDF trojice, kde je každá entita identifikovaná svou \glref{URI} \cite[rdf-community].
+\medskip
+V sémantickém světě je standardem pro vytváření dat formát \glref{RDF} \cite[w3c-rdf].
+RDF je standardizovaný strojově čitelný grafový formát, ve kterém se využívají tzv. triples, česky trojice, k popsání relací (lze zapsat jako orientované hrany v grafu) ve 
+formátu subjekt - predikát - objekt. Samotná syntaxe však definovaná není, často se však používá \glref{RDF}/\glref{XML}, která dokáže zapsat RDF graf jako \glref{XML} dokument.
+Pro účely dnešních aplikací je nutné také zmínit existenci formátu RDFJS, který reprezentuje \glref{RDF} data v jazyku Javascript \cite[rdfjs-spec].
+
+\secc OWL
+Pro popsání základních ontologií vzniklo RDF Schema (\glref{RDFS}), které obsahuje sadu základních tříd k použití \cite[w3c-rdfs].
+Později se však vyvinul Web Ontology Language (\glref{OWL}), který je mnohem bohatší a používá se tak pro popis informací o věcech a vztahů mezi nimi neboli ontologií \cite[w3c-owl].
+Oba jazyky jsou standardem \glref{W3C}.
+
+V informatice je ontologie explicitní a formalizovaný popis určité problematiky. Datový model se sestává:
+\begitems
+* Entita (objekt, jedinec, instance) je základní stavební prvek datového modelu ontologie. Entita může být konkrétní (člověk, tabulka, molekula) nebo abstraktní (číslo, pojem, událost).
+* Kategorie (třída) je množina entit určitého typu. Podmnožinou kategorie je podkategorie. Kategorie může obsahovat zároveň entity i podkategorie.
+* Atribut popisuje určitou vlastnost, charakteristiku či parametr entity. Každý atribut určité entity obsahuje přinejmenším název a hodnotu. Atribut je určen pro uložení určité informace vztahující se k dané entitě.
+* Vazba je jednosměrné nebo obousměrné propojení dvou entit. Je možné říci, že vazba je určitým typem atributu, jehož hodnotou je jiná entita v ontologii.
+\enditems
+
+\secc Linked data
+Výše popsané technologie umožňují vznik standardizovaným strukturovaným datům, které nazýváme Linked Data. 
+Ty se řídí 4 principy:
+\begitems
+* K identifikaci jednotlivých věci se používá \glref{URI}.
+* URI by měla být otevřená přes \glref{HTTP} k vyhledání a interpretaci věci na internetu.
+* HTTP URI by měla obsahovat užitečné informace.
+* HTTP URI by měli být používané k odkazování na věci související (relace) s vaší \glref{URI}.
+\enditems
+Mezi největší Linked Data sety patří DBPedia.org - obdoba Wikipedia.org se sémantickými daty či GeoNames, popisující geografii.
+
+\secc SPARQL
+Primárním dotazovacím jazykem pro \glref{RDF} je \glref{SPARQL} \cite[w3c-sparql]. 
+Ten je syntaxí velmi podobný \glref{SQL}, funguje však spíše na porovnávání a dosazování oněch trojic - tedy potažmo orientovaných hran grafu.
+Má více druhů dotazů:
+\begitems
+* SELECT – podobný \glref{SQL} SELECT dotazu, tedy vrací data vyhovující dotazu
+* CONSTRUCT – vrací výsledek dotazu jako nová data ve formátu \glref{RDF} vyhovující dotazu
+* ASK – vrací boolean hodnotu true/false odpovídající dotazu
+* DESCRIBE – vráci RDF podobu toho, jak by vypadali data vyhovující dotazu
+\enditems
+Dále obsahuje klauzule jako BIND k přiřazování hodnot k proměnným či OPTIONAL, který je podobný k nepovinnému JOIN z \glref{SQL}.
+
+Je zvykem, že stránky se sémantickými daty obsahují \glref{SPARQL} endpoint, kam lze zadávat dotazy. 
+Často se využívá řešení od firmy OpenLink jménem Virtuoso.
