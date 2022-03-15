@@ -1,3 +1,8 @@
+## Notes
+
+* DB kterou používá slovník.gov.cz je OpenLink Virtuoso
+
+
 ## Materiály
 * Sémantický web - základní rozcestník - https://www.w3.org/standards/semanticweb/
 * RDF primer - shrnutí principů - https://www.w3.org/TR/rdf11-primer/
@@ -14,29 +19,18 @@
 * Fetch SPARQL lib - https://www.npmjs.com/package/fetch-sparql-endpoint
 * SPARQL cheatsheet - https://www.iro.umontreal.ca/~lapalme/ift6281/sparql-1_1-cheat-sheet.pdf
 * Supernatural - a natural way of building SPARQL queries - https://github.com/sparna-git/Sparnatural
-* Linked Data Fragments (filtrování na straně klienta) - http://videolectures.net/iswc2014_verborgh_querying_datasets/
-* Berlin SPARQL benchmark
 
-
-## Konzultace
-- ukazat sequence diagram
-- jak na component diagram?
-- streaming RDF?
-- jak na literals ve SPARQL? (+ string vs rdfjs object)
-- text search facet - FILTER contains() nebo jine moznosti?
-- pagination? keep inactive facet options? lang?
-
+## Otázky
+- ontologie http://purl.org/dc/terms/, onto.fel.cvut.cz nebo skos?
+- dbpedia.org, permissions
+- co se rozumí přístupy k facetovému vyhledávání? porovnání technologií? (Solr, Elastic) nebo bucketing facets, range, etc.
+- typy facetů? (předchůdce bral podle typu ze SKOS)
+- brat vsechny slovniky jako moznosti?
+- JSON spatne kodovani
 
 ## TODO
-- udelat analyzu facetovych vyhledavacu
-- nastinit Linked Data Fragments - argumentovat tim caste volani SPARQL endpointu
+- prozkoumat facetovy vyhledavace
 - navrhnout architekturu, jak vypada konfigurace facetu, jak vypada vyhledavani
 
-## SPARQL queries
-select distinct ?name 
-where {
-[] foaf:name ?name .
-FILTER langMatches(lang(?name), "en")
-FILTER contains(?name, "United")
-} LIMIT 100
-
+SEM PROJEKT - z cmd, vyhledavaci modul, 10 stran textu
+BAKALÁŘSKÁ PRÁCE - propojeni tech modulu, dopsat text, dodelat ui

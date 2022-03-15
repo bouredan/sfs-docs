@@ -1,0 +1,23 @@
+title SFS facet change sequence diagram
+
+actor User
+boundary "FacetComponent\n<sfs-react-demo>" as FacetComponent
+participant "useFacet\n<react-sfs>" as useFacet
+participant "Facet\n<sfs-api>" as Facet
+participant "SfsApi\n<sfs-api>" as SfsApi
+database SPARQL endpoint
+
+User->FacetComponent:clicks facet option
+FacetComponent->useFacet:onValueChange callback
+useFacet->Facet:setValue() with new value
+useFacet->SfsApi:call search()
+SfsApi->Facet:call resetOptions()
+SfsApi->Facet:call generateSparql() on each registered facet
+Facet-->SfsApi:generated SPARQL
+SfsApi->(1)SPARQL endpoint:sends request with SPARQL
+SPARQL endpoint-->(1)SfsApi:JSON data response
+SfsApi->Facet:add options to individual facets (in stream-like fashion)
+Facet->useFacet:notifies subscribers about new options
+useFacet->useFacet:sets new options
+useFacet->FacetComponent:initiate render new options
+FacetComponent->User:render new options
