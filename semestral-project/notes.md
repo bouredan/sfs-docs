@@ -17,21 +17,26 @@
 * Linked Data Fragments (filtrování na straně klienta) - http://videolectures.net/iswc2014_verborgh_querying_datasets/
 * Berlin SPARQL benchmark
 
+## Poznámky
+- text search facet - FILTER contains() lowercase
+- literals by se neměli objevovat, udělat požadavek, že chci jen data s labelem a IRI
+- pouzit publish-subscribe model obrazek u NSI
+
 
 ## Konzultace
-- ukazat sequence diagram
-- jak na component diagram?
-- streaming RDF?
-- jak na literals ve SPARQL? (+ string vs rdfjs object)
-- text search facet - FILTER contains() nebo jine moznosti?
-- pagination? keep inactive facet options? lang?
+
 
 
 ## TODO
+- facety own query na populating options
+- pouzivat rdfjs objekty s labelem a countem (klidne dat podminku pro data jen s labelem)
+- component diagram jen jako spolu package spolupracuji
+- add subscriber na results
+- sequence diagram na results
 - udelat analyzu facetovych vyhledavacu
 - nastinit Linked Data Fragments - argumentovat tim caste volani SPARQL endpointu
 - navrhnout architekturu, jak vypada konfigurace facetu, jak vypada vyhledavani
-
+ 
 ## SPARQL queries
 select distinct ?name 
 where {

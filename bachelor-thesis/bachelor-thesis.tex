@@ -1,4 +1,5 @@
 \input ctustyle3
+\input chapters/slovnicek
 
 \worktype [B/CZ]
 \faculty {F3}
@@ -8,19 +9,23 @@
 
 \author {Daniel Bourek}
 \supervisor {Ing. Martin Ledvinka}
-\date {Leden 2022}
+\date {Květen 2022}
 
 \studyinfo {Softwarové inženýrství a technologie}
 
-\workname {Semestrální projekt}
+\specification {%
+\vbox to0pt{\vskip-25mm\centerline{\inspic zadani_bakalarske_prace.pdf }\vss}
+}
 
 \abstractCZ {
-Práce se zabývá problematiku facetového vyhledávání s přihlednutím na sémantická data.
+\rfc{předělat abstrakty}
+Práce se zabývá problematiku facetového vyhledávání se zaměřením na jeho použití pro sémantická data.
 Zprvu čtenáře seznámi s pojmy a technologiemi sémantického webu. 
 Pak zanalyzuje přístupy k facetovému vyhledávání a navrhne vhodný pro sémantická data.
-Součástí práce je pak návrh prototypu sémantického facetového vyhledávače na platformě React s důrazem na jeho přepoužitelnost.
-Ten je také výsledkem této práce.
+Součástí práce je pak návrh modulu sémantického facetového vyhledávače na platformě React s důrazem na jeho přepoužitelnost.
+Výsledkem je pak jeho implementace, která je také okomentovaná 
 }
+
 \abstractEN {
 The thesis deals with the issue of facet searching with regard to semantic data.
 First, it introduces the reader to the concepts and technologies of the Semantic Web.
@@ -30,31 +35,32 @@ Thesis is successful in fulfilling its goals.
 }
 
 \thanks{
-Tímto bych rád poděkoval vedoucímu této práce Ing. Martinovi Ledvinkovi za výborné vedení, mnoho doporučení a velkou ochotu na konzultacích při vypracovávání této práce.
+\rfc{předělat poděkování}
+Rád bych poděkoval vedoucímu této práce Ing. Martinovi Ledvinkovi za výborné vedení, mnoho doporučení a velkou ochotu na konzultacích při vypracovávání této práce.
 Dále bych chtěl poděkovat své rodině za jejich neustálou podporu při mých studiích.
 }
 
 \declaration {
-	Prohlašuji, že jsem předloženou práci vypracoval samostatně.
+Prohlašuji, že jsem předloženou práci vypracoval samostatně.
 
-	Daniel Bourek
-	V Praze, 16. 1. 2022
+Daniel Bourek
+V Praze, 15. 5. 2022
 }
 
-\input chapters/slovnicek
-
+\draft
 \makefront
 
 \input chapters/01_uvod
 \input chapters/02_semanticky_web
 \input chapters/03_facetove_vyhledavani
-\input chapters/04_implementace
-\input chapters/05_zaver
+\input chapters/04_navrh
+\input chapters/05_implementace
+\input chapters/06_zaver
+
+\bibchap
+\usebib/c (iso690) chapters/literatura
 
 \app Slovníček 
 \makeglos
-
-\bibchap
-\usebib/c (simple) chapters/literatura
 
 \bye

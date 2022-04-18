@@ -6,7 +6,7 @@ poskytované Facet Search \glref{API}s největších společností v této oblas
 \sec Popis
 \medskip
 \picw=15cm \cinspic images/facets-explained.jpeg
-\caption/f Ukázka facetů s vysvětlivkami \cite[facets-explained-image].
+\caption/f Ukázka facetů s vysvětlivkami \cite[facets-explained-image]
 \medskip
 Facetové vyhledávání je zatřídění vyhledaných výsledků do různých kategorií (facetů) dle kterých se dá sada výsledků dále filtrovat.
 Dá se ním tak obohatit každé vyhledávání, ale často bývá spojeno s fulltextovým vyhledáváním\rfc{možná někde vysvětlit co to je}, aby uživateli umožnilo jeho dotaz dále upřesnit.
@@ -17,29 +17,39 @@ Jelikož není definovaný žádný standard facetového vyhledávání, zadefin
 * jednotlivé facety lze kombinovat mezi sebou
 * mezi kritérii facetů platí logický AND (ne pouze OR), tzn. aby se výsledek objevil v sadě výsledku, musí vyhovět všem aktivním facetům
 * hodnoty facetů ukazují počet výsledků, které aplikování facetu s danou hodnotou v aktuálním stavu vrátí
-* hodnoty facetů, které by vrátily prázdnou sadu výsledků se nezobrazují nebo jsou \uv{disabled}\fnote{Jejich \glref{HTML} ovládací prvek má atribut disabled.}
+* hodnoty facetů, které by vrátily prázdnou sadu výsledků se nezobrazují nebo jsou \uv{disabled}\fnote{Jejich \glref{HTML} ovládací prvek má atribut disabled.}\rfc{zahrnout pouze jestli stihnu dodělat}
 \enditems
 
 \sec Typy facetů
-Facety si můžeme rozřadit dle toho jakým způsobem se volí jejich hodnoty. V této práci budeme tyto kategorie nazývat jako typy facetů.
+Facety si můžeme rozřadit dle toho jakým způsobem se volí jejich hodnoty. 
+V této práci budeme tyto kategorie nazývat jako typy facetů.
 
   \secc Select facet
-  Facet s možností volby nejvýše jedné hodnoty podle které je pak sada výsledků filtrována. Ovládacím prvkem bývá select element.
+  Facet s možností volby nejvýše jedné hodnoty podle které je pak sada výsledků filtrována. 
+  Ovládacím prvkem bývá select element.
 
   \secc Checkbox facet
   Facet s možností volby více hodnot skrz zaškrtávání checkboxů.
 
   \secc Range facet
-  Facet pro číselná data s možností nastavení rozsahu. Ovládacím prvkem bývá posuvník (input element s hodnotou atributu type range).
+  Facet pro číselná data s možností nastavení rozsahu. 
+  Ovládacím prvkem bývá posuvník (input element s hodnotou atributu type range).
 
   \secc Bucket facet
-  Podobné jako range facet, akorát se neovládá posuvníkem, ale jsou nadefinovány rozsahy, do kterých se pak výsledky roztřídí.
+  Podobné jako range facet, ale neovládá se posuvníkem, ale jsou nadefinovány a pojmenovány rozsahy, dle kterých se pak dají výsledky filtrovat.
+
+  \secc Text facet
+  V některých knihovnách implementující facetové vyhledávání se také setkáme s \uv{Text facetem}. 
+  Tím se rozumí běžné fulltextové vyhledávání. 
+  V našem prototypu a vzniklých knihovnách nebereme takové vyhledávání jako typ facetu.
 		
 \sec Srovnání přístupů
 Řešení jak implementovat facetové vyhledávání je více. 
+Liší se podle toho, kde dochází k filtrování výsledků facety, jakým způsobem se získávájí možnosti facetů 
 Obecně je lze rozdělit podle toho, kde dochází k filtraci výsledků aktivními facety, tedy jestli na straně klienta či na straně serveru.
 U implementace facetového vyhledávání je také nutné myslet na to jakým způsobem se budou plnit data facetů. Nejčastěji se setkáváme s tím, že se
 hodnoty facetů posílají ve stejné response jako sada výsledků. 
+Po rešerši současných řešení
 
   \secc Filtrování na straně klienta
   Při filtrování na klientu nám server vždy zašle celou výsledkovou sadu, kterou při zpracování vyfiltrujeme dle aktivních facetů a zobrazíme jen vyfiltrované výsledky.

@@ -1,0 +1,80 @@
+\chap[navrh] Návrh
+\rfc{dodelat}
+Výsledkem této práce je sémantický facetový vyhledávač na platformě React.
+Tato kapitola se bude zabývat jeho návrhem.
+Nejprve navrhneme jak rozdělit moduly vyhledávače, poté popíšeme architekturu jednotlivých modulů a komunikaci mezi jednotlivými facety.
+
+
+\sec Moduly
+Při návrhu je nutné dbát na to, aby byl vyhledávač rozdělený na moduly vyhledávání a jeho vizualizace.
+Toto rozdělení nám umožní, aby byl modul vyhledávání zcela nezávislý na použité platformě.
+Realizovat takový modul jde pak dvěmy způsoby - buďto jako samostatná serverová služba nebo jako modul bez využití konstruktů použité platformy, v našem případě React.
+Jelikož lze získávat sémantická data skrze \glref{SPARQL} endpoint, který lze lehko volat přímo z prohlížeče, dává v našem případě větší smysl jít cestou modulu, který bude využíván přímo na frontendu.
+
+Tento modul bude pojmenován {\ssr sfs-api} a bude koncipován tak, aby to bylo samostatná knihovna, kterou lze využít v jakémkoliv Javascript frameworku či prostředí.
+Jelikož však chceme implementovat vyhledávač primárně na platformě React, vytvoříme ještě jednu knihovnu jménem {\ssr react-sfs}, která bude usnadňovat použití {\ssr sfs-api} v React aplikacích.
+Výsledkem tak budou 3 projekty, knihovny {\ssr sfs-api} a {\ssr react-sfs} a finální projekt {\ssr sfs-react-demo}, který bude finálním sémantickým facetovým vyhledávačem a zároveň tak ukázkovým příkladem použití těchto knihoven.
+Knihovny {\ssr sfs-api} a {\ssr react-sfs} budou publikovány v repozitáři NPM\fnote{https://www.npmjs.com}, který je primárním repozitářem Javascriptových balíčků.
+
+Součástí publikovaných knihoven nejsou žádné komponenty či web elementy, které by přímo definovaly vizuální podobu samotných facetů či vyhledávání. 
+Záměrně tuto část necháváme na uživateli, abychom ho nijak neomezovali a nevnucovali mu vizuální podobu, která se mu nemusí líbit.
+Obě knihovny však poskytují rozhraní pro tyto web elementy, lze tedy využít i samostatně {\ssr sfs-api} pro jinou platformu než React.
+
+
+\sec Architektura
+
+
+\sec Popis eventů
+
+
+\rfc{pridat listing label}
+\begtt 
+export const sfsApi = new SfsApi({
+  endpointUrl: "https://xn--slovnk-7va.gov.cz/sparql",
+  facets: [glosaryFacet, subClassOfFacet],
+  queryTemplate:
+    `SELECT DISTINCT ?_id ?_label 
+WHERE 
+  { ?_id a <http://www.w3.org/2004/02/skos/core#Concept> .
+    FILTER isIRI(?_id)
+    OPTIONAL
+      { ?_id rdfs:label ?rdfsLabel 
+        FILTER langMatches(lang(?rdfsLabel), "${language}")
+      }
+    OPTIONAL
+      { ?_id skos:prefLabel ?prefLabel 
+        FILTER langMatches(lang(?prefLabel), "${language}")
+      }
+      BIND(coalesce(?rdfsLabel, ?prefLabel, ?_id) AS ?_label) 
+  }
+ORDER BY ASC(?_label)`,
+  prefixes: {
+    rdfs: "http://www.w3.org/2000/01/rdf-schema#",
+    skos: "http://www.w3.org/2004/02/skos/core#",
+    dct: "http://purl.org/dc/terms/",
+    dbp: "http://dbpedia.org/property/",
+    dbo: "http://dbpedia.org/ontology/",
+  },
+  language,
+});
+\endtt
+
+Facet je reprezentován rozhraním {\ssr Facet} a má své unikátní facetId, dle kterého je dále identifikován.
+Jednotlivé typy facetů pak toto rozhraní rozšiřují a implementují jeho metodu \uv{generateSparql}, která se volá při sestavení výsledného \glref{SPARQL} dotazu.
+Vracet by měla část \glref{SPARQL} týkající se tohoto facetu.
+Podpora dalších typů je plánovaná s dalším vývojem vyhledávače. 
+Tento design umožňuje uživateli vytvořit si vlastní typ facetu (implementováním interfacu Facet) pro případy nepokryté knihovnou, s tím, že ho ale stále může kombinovat s ostatními facety.
+
+K připojení jednotlivých facetů používáme modul {\ssr react-sfs}. 
+Ten za pomoci implementovaného React hooku spojí prezentační vrstvu se stavem facetu a je tak bodem komunikace s druhým modulem.
+K tomu se používá hlavně subscriber pattern, kde je identifikátorem právě ono facetId.
+
+\sec Technologie a knihovny
+Jako součást zadání této práce bylo rozhodnuto, že na implementaci prototypu bude využit javascriptový framework React. 
+Ten je v současné době velmi populární a pro naše potřeby vhodný, díky jeho modularizaci. 
+Použili jsme tedy doporučovanou metodu create-react-app k vytvoření základních modulů. 
+Abychom se nemuseli zaobírat UI prvky prototypu, využili jsme knihovnu MUI (dříve známá také jako Material-UI) a použili připravené komponenty z ní.
+Druhá knihovna, kterou využíváme je fetch-sparql-endpoint \cite[fetch-sparql-endpoint]. 
+Ta nám zjednodušuje volání \glref{SPARQL} endpointu a serializaci příchozích dat do formátu RDFJS. 
+Vybrali jsme ji hlavně proto, že je skutečně jednoduchá, neimplementuje nepotřebné věci navíc a je udržována aktuální.
+Všechen kód je napsaný v Typescriptu, což je nadstavba Javascriptu, která jej rozšiřuje o statické typování a předchází tak spoustě chyb.

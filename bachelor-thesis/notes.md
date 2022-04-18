@@ -1,8 +1,3 @@
-## Notes
-
-* DB kterou používá slovník.gov.cz je OpenLink Virtuoso
-
-
 ## Materiály
 * Sémantický web - základní rozcestník - https://www.w3.org/standards/semanticweb/
 * RDF primer - shrnutí principů - https://www.w3.org/TR/rdf11-primer/
@@ -19,18 +14,39 @@
 * Fetch SPARQL lib - https://www.npmjs.com/package/fetch-sparql-endpoint
 * SPARQL cheatsheet - https://www.iro.umontreal.ca/~lapalme/ift6281/sparql-1_1-cheat-sheet.pdf
 * Supernatural - a natural way of building SPARQL queries - https://github.com/sparna-git/Sparnatural
+* Linked Data Fragments (filtrování na straně klienta) - http://videolectures.net/iswc2014_verborgh_querying_datasets/
+* o angular facet vyhledavaci, dobry na zdroj https://seco.cs.aalto.fi/publications/2016/koho-et-al-sparql-faceter.pdf
+* Berlin SPARQL benchmark
+* Sampo-UI - https://github.com/SemanticComputing/sampo-ui
 
-## Otázky
-- ontologie http://purl.org/dc/terms/, onto.fel.cvut.cz nebo skos?
-- dbpedia.org, permissions
-- co se rozumí přístupy k facetovému vyhledávání? porovnání technologií? (Solr, Elastic) nebo bucketing facets, range, etc.
-- typy facetů? (předchůdce bral podle typu ze SKOS)
-- brat vsechny slovniky jako moznosti?
-- JSON spatne kodovani
+## Poznámky
+- zamerne malo knihoven, aby nebyli problemy s dependencies
+- zminit, ze constraints z sfsApi se zamerne skladaji ve facetu do query kvuli vetsi customizaci
+- pouzit publish-subscribe model obrazek u NSI
+- poznamenat obtize s parsovanim SPARQL kousku a bug only IRI as predicate
+- zadani podepsane?
+
+
+## Konzultace
+
 
 ## TODO
-- prozkoumat facetovy vyhledavace
-- navrhnout architekturu, jak vypada konfigurace facetu, jak vypada vyhledavani
+- component diagram jen jako spolu package spolupracuji
+- napsat o factory vs sfsApi init 
+- sequence diagram na results
+- udelat analyzu facetovych vyhledavacu
+- udelat dokumentaci jak vypada konfigurace facetu, jak vypada vyhledavani
+- nastinit Linked Data Fragments - argumentovat tim caste volani SPARQL endpointu
+- publish React component stories
+- pagination
 
-SEM PROJEKT - z cmd, vyhledavaci modul, 10 stran textu
-BAKALÁŘSKÁ PRÁCE - propojeni tech modulu, dopsat text, dodelat ui
+## KNOWN BUGS
+- autocomplete nema nastavenou value prop
+ 
+## SPARQL queries
+select distinct ?label 
+where {
+?id rdfs:label ?label .
+FILTER langMatches(lang(?label), "en")
+FILTER contains(?label, "United")
+} LIMIT 100

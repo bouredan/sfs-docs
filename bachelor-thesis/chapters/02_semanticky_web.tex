@@ -15,52 +15,96 @@ Ony standardizované pravidla jsou hlavně Resource Description Framework (\glre
 Ty byly vyvinuty mezinárodním konsorciem \glref{W3C}, které ve společnosti s veřejností vyvíjí i jiné webové standardy, pomocí nichž, chtějí rozvinout web do plného potenciálu.
 Pro ověření pravosti dokumentů (a jejich informací) využívá sémantický web také třeba digitální podpisy a šifrování \cite[w3c-semantic-web-security].
 
+
 \sec Úvod do sémantických technologií
-\secc RDF
-\medskip
-\picw=15cm \cinspic images/rdf-triples.png
-\caption/f Ukázka RDF trojice, kde je každá entita identifikovaná svou \glref{URI} \cite[rdf-community].
-\medskip
-V sémantickém světě je standardem pro vytváření dat formát \glref{RDF} \cite[w3c-rdf].
-RDF je standardizovaný strojově čitelný grafový formát, ve kterém se využívají tzv. triples, česky trojice, k popsání relací (lze zapsat jako orientované hrany v grafu) ve 
-formátu subjekt - predikát - objekt. Samotná syntaxe však definovaná není, často se však používá \glref{RDF}/\glref{XML}, která dokáže zapsat RDF graf jako \glref{XML} dokument.
-Pro účely dnešních aplikací je nutné také zmínit existenci formátu RDFJS, který reprezentuje \glref{RDF} data v jazyku Javascript \cite[rdfjs-spec].
+V této sekci si popíšeme relevantní sémantické techonologie a formáty. 
+Pochopení těchto technologíí je nezbytné k návrhu a následné implementaci sémantického facetového vyhledáváče. \rfc{se docela opakuju co}
+  \secc RDF
+  V sémantickém světě je standardem pro vytváření dat formát \glref{RDF} \cite[w3c-rdf].
+  \glref{RDF} je standardizovaný strojově čitelný grafový formát, ve kterém se využívají tzv. triples, česky trojice, k popsání relací ve 
+  formátu subjekt - predikát - objekt. Tyto trojice lze znázornit jako orientované hrany v grafu. 
+  \medskip
+  \picw=15cm \cinspic images/rdf-triples.png
+  \caption/f Ukázka RDF trojice, kde je každá entita identifikovaná svou \glref{URI} \cite[rdf-community].
+  \medskip
+  Jednotlivé uzly v grafu jsou pak identifikované pomocí \glref{IRI}, což je nadmnožinou \glref{URI}, která povoluje více Unicode znaků.
+  \glref{IRI}, potažmo URI, může pak vypadat například takto: 
+  \midinsert 
+  <http://www.w3.org/1999/02/22-rdf-syntax-ns\#Class> 
+  \endinsert
 
-\secc OWL
-Pro popsání základních ontologií vzniklo RDF Schema (\glref{RDFS}), které obsahuje sadu základních tříd k použití \cite[w3c-rdfs].
-Později se však vyvinul Web Ontology Language (\glref{OWL}), který je mnohem bohatší a používá se tak pro popis informací o věcech a vztahů mezi nimi neboli ontologií \cite[w3c-owl].
-Oba jazyky jsou standardem \glref{W3C}.
+  Samotná syntaxe RDF definovaná není, nejčastěji se však používá \glref{RDF}/\glref{XML}, která dokáže zapsat RDF graf jako \glref{XML} dokument či Turtle, který je více podobný bežnému textu.
+  Obě syntaxe jsou vytvořeny a doporučeny W3C.
+  Pro účely dnešních aplikací je nutné také zmínit existenci formátu RDFJS, který reprezentuje \glref{RDF} data v jazyku Javascript \cite[rdfjs-spec].
 
-V informatice je ontologie explicitní a formalizovaný popis určité problematiky. Datový model se sestává:
-\begitems
-* Entita (objekt, jedinec, instance) je základní stavební prvek datového modelu ontologie. Entita může být konkrétní (člověk, tabulka, molekula) nebo abstraktní (číslo, pojem, událost).
-* Kategorie (třída) je množina entit určitého typu. Podmnožinou kategorie je podkategorie. Kategorie může obsahovat zároveň entity i podkategorie.
-* Atribut popisuje určitou vlastnost, charakteristiku či parametr entity. Každý atribut určité entity obsahuje přinejmenším název a hodnotu. Atribut je určen pro uložení určité informace vztahující se k dané entitě.
-* Vazba je jednosměrné nebo obousměrné propojení dvou entit. Je možné říci, že vazba je určitým typem atributu, jehož hodnotou je jiná entita v ontologii.
-\enditems
 
-\secc Linked data
-Výše popsané technologie umožňují vznik standardizovaným strukturovaným datům, které nazýváme Linked Data. 
-Ty se řídí 4 principy:
-\begitems
-* K identifikaci jednotlivých věci se používá \glref{URI}.
-* URI by měla být otevřená přes \glref{HTTP} k vyhledání a interpretaci věci na internetu.
-* HTTP URI by měla obsahovat užitečné informace.
-* HTTP URI by měli být používané k odkazování na věci související (relace) s vaší \glref{URI}.
-\enditems
-Mezi největší Linked Data sety patří DBPedia.org - obdoba Wikipedia.org se sémantickými daty či GeoNames, popisující geografii.
+  \secc OWL 2
+  Pro popsání základních ontologií vzniklo RDF Schema (\glref{RDFS}), které obsahuje sadu základních tříd k použití \cite[w3c-rdfs].
+  Později se však vyvinul Web Ontology Language (\glref{OWL}), který je mnohem bohatší a používá se tak pro popis informací o věcech a vztahů mezi nimi neboli ontologií \cite[w3c-owl].
+  Oba jazyky jsou standardem \glref{W3C}.
 
-\secc SPARQL
-Primárním dotazovacím jazykem pro \glref{RDF} je \glref{SPARQL} \cite[w3c-sparql]. 
-Ten je syntaxí velmi podobný \glref{SQL}, funguje však spíše na porovnávání a dosazování oněch trojic - tedy potažmo orientovaných hran grafu.
-Má více druhů dotazů:
-\begitems
-* SELECT – podobný \glref{SQL} SELECT dotazu, tedy vrací data vyhovující dotazu
-* CONSTRUCT – vrací výsledek dotazu jako nová data ve formátu \glref{RDF} vyhovující dotazu
-* ASK – vrací boolean hodnotu true/false odpovídající dotazu
-* DESCRIBE – vráci RDF podobu toho, jak by vypadali data vyhovující dotazu
-\enditems
-Dále obsahuje klauzule jako BIND k přiřazování hodnot k proměnným či OPTIONAL, který je podobný k nepovinnému JOIN z \glref{SQL}.
+  V informatice se ontologií rozumí explicitní a formalizovaný popis určité problematiky. Datový model se sestává:
+  \begitems
+  * Entita (objekt, jedinec, instance) je základní stavební prvek datového modelu ontologie. Entita může být konkrétní (člověk, tabulka, molekula) nebo abstraktní (číslo, pojem, událost).
+  * Kategorie (třída) je množina entit určitého typu. Podmnožinou kategorie je podkategorie. Kategorie může obsahovat zároveň entity i podkategorie.
+  * Atribut popisuje určitou vlastnost, charakteristiku či parametr entity. Každý atribut určité entity obsahuje přinejmenším název a hodnotu. Atribut je určen pro uložení určité informace vztahující se k dané entitě.
+  * Vazba je jednosměrné nebo obousměrné propojení dvou entit. Je možné říci, že vazba je určitým typem atributu, jehož hodnotou je jiná entita v ontologii.
+  \enditems
+
+
+  \secc Linked data
+  Výše popsané technologie umožňují vznik standardizovaným strukturovaným datům, které nazýváme Linked Data. 
+  Ty se řídí 4 principy:\cite[w3c-linked-data]
+  \begitems
+  * K identifikaci jednotlivých věci se používá \glref{URI}.
+  * URI by měla být otevřená přes \glref{HTTP} k vyhledání a interpretaci věci na internetu.
+  * HTTP URI by měla obsahovat užitečné informace.
+  * HTTP URI by měli být používané k odkazování na věci související (relace) s vaší \glref{URI}.
+  \enditems
+
+  Později pak také Tim Berners-Lee definoval hodnocení kvality Linked Data od 1 do 5 hvězdiček. 
+  Pro splnění stupně hodnocení musí data splňovat i předchozí stupně.
+  Toto hodnocení je definované takto:\cite[w3c-linked-data]
+  \begitems
+  \style n
+  * 1 hvězdička - Data jsou dostupné na webu (v jakýmkoliv formátu), ale s otevřenou licencí, jako Open Data.
+  * 2 hvězdičky - Data jsou k dispozici jako strojově čitelná strukturovaná data (např. excel místo skenování obrázku tabulky)
+  * 3 hvězdičky - Data jsou v nechráněnem formátu (např. CSV místo excelu).
+  * 4 hvězdičky - Data používají otevřené standardy od W3C (RDF a SPARQL) k identifikaci věcí, aby mohli ostatní lidé na vaše data odkazovat.
+  * 5 hvězdičky - Data jsou propojená s daty jiných lidí, aby poskytovaly kontext.
+  \enditems
+  Mezi největší Linked Data sety patří DBPedia.org - obdoba Wikipedia.org se sémantickými daty či GeoNames, popisující geografii na zeměkouli.
+
+
+  \secc SPARQL
+  \rfc{revisit}
+  Primárním dotazovacím jazykem pro \glref{RDF} je \glref{SPARQL} \cite[w3c-sparql]. 
+  Ten je syntaxí velmi podobný \glref{SQL}, funguje však spíše na porovnávání a dosazování oněch trojic - tedy potažmo orientovaných hran grafu.
+  Má více druhů dotazů:
+  \begitems
+  * SELECT – podobný \glref{SQL} SELECT dotazu, tedy vrací data vyhovující dotazu
+  * CONSTRUCT – vrací výsledek dotazu jako nová data ve formátu \glref{RDF} vyhovující dotazu
+  * ASK – vrací boolean hodnotu true/false odpovídající dotazu
+  * DESCRIBE – vráci RDF podobu toho, jak by vypadali data vyhovující dotazu
+  \enditems
+  Obsahuje klauzule jako BIND k přiřazování hodnot k proměnným či OPTIONAL, který je podobný k nepovinnému JOIN z \glref{SQL}.
+  Proměnné jsou značeny prefixem \uv{?}.
+  Pro lepší čitelnost dotazu lze také využít klauzule \uv{PREFIX}, která nahradí URI ontologie definovaným prefixem.
+
+
+\rfc{pridat listing label}
+\begtt
+PREFIX ex: <http://example.com/exampleOntology#>
+SELECT ?capital
+       ?country
+WHERE
+  {
+    ?x  ex:cityname       ?capital   ;
+        ex:isCapitalOf    ?y         .
+    ?y  ex:countryname    ?country   ;
+        ex:isInContinent  ex:Africa  .
+  }
+\endtt
 
 Je zvykem, že stránky se sémantickými daty obsahují \glref{SPARQL} endpoint, kam lze zadávat dotazy. 
 Často se využívá řešení od firmy OpenLink jménem Virtuoso.
