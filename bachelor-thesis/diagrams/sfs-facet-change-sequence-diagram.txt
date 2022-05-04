@@ -4,20 +4,28 @@ actor User
 boundary "FacetComponent\n<sfs-react-demo>" as FacetComponent
 participant "useFacet\n<react-sfs>" as useFacet
 participant "Facet\n<sfs-api>" as Facet
+participant "EventStream\n<sfs-api>" as EventStream
 participant "SfsApi\n<sfs-api>" as SfsApi
 database SPARQL endpoint
 
 User->FacetComponent:clicks facet option
-FacetComponent->useFacet:onValueChange callback
-useFacet->Facet:setValue() with new value
-useFacet->SfsApi:call search()
-SfsApi->Facet:call resetOptions()
-SfsApi->Facet:call generateSparql() on each registered facet
-Facet-->SfsApi:generated SPARQL
+FacetComponent->useFacet:onValueChange(newValue)
+useFacet->Facet:facet.value = newValue
+Facet->EventStream:emit(FacetValueChangedEvent)
+EventStream->useFacet: onFacetValueChangedEvent(event)
+useFacet-->FacetComponent:returns newValue
+FacetComponent->User: renders newValue
+EventStream->Facet: onFacetValueChangedEvent(event)
+opt if event.facetId !== this.id
+Facet->SfsApi:getAllConstraints(this.id)
+SfsApi-->Facet:constraints of API and other active facets
+note over Facet: Facet builds options query from constraints
+Facet->SfsApi:fetchBindings(optionsQuery)
 SfsApi->(1)SPARQL endpoint:sends request with SPARQL
 SPARQL endpoint-->(1)SfsApi:JSON data response
-SfsApi->Facet:add options to individual facets (in stream-like fashion)
-Facet->useFacet:notifies subscribers about new options
-useFacet->useFacet:sets new options
-useFacet->FacetComponent:initiate render new options
+SfsApi-->Facet:FacetOption array
+Facet->EventStream:emit(FetchFacetOptionsSuccessEvent)
+EventStream->useFacet:onFetchFacetOptionsSuccessEvent(event)
+useFacet-->FacetComponent:returns new options
 FacetComponent->User:render new options
+end

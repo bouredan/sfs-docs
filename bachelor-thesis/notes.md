@@ -10,7 +10,7 @@
 * Old Semantic Facet Search in Angular https://github.com/SemanticComputing/angular-semantic-faceted-search
 * RDF metadata - http://purl.org/dc/terms/
 * SKOS - https://www.w3.org/TR/skos-reference/ and https://www.w3.org/TR/skos-primer/
-* RDF Javascript libraries - https://rdf.js.org/
+* RDF JavaScript libraries - https://rdf.js.org/
 * Fetch SPARQL lib - https://www.npmjs.com/package/fetch-sparql-endpoint
 * SPARQL cheatsheet - https://www.iro.umontreal.ca/~lapalme/ift6281/sparql-1_1-cheat-sheet.pdf
 * Supernatural - a natural way of building SPARQL queries - https://github.com/sparna-git/Sparnatural
@@ -20,33 +20,27 @@
 * Sampo-UI - https://github.com/SemanticComputing/sampo-ui
 
 ## Poznámky
-- zamerne malo knihoven, aby nebyli problemy s dependencies
 - zminit, ze constraints z sfsApi se zamerne skladaji ve facetu do query kvuli vetsi customizaci
 - pouzit publish-subscribe model obrazek u NSI
-- poznamenat obtize s parsovanim SPARQL kousku a bug only IRI as predicate
-- zadani podepsane?
+- poznamenat obtize s parsovanim SPARQL kousku a bug only IRI as predicate)
 
 
 ## Konzultace
 
 
+
 ## TODO
-- component diagram jen jako spolu package spolupracuji
+- pridat evauluaci se srovnáním
+- návrh abstraktní seq diagram v implementaci ten co mám
+- komponent diagram zezhora dolu
+- udealt basic unit testy na sfs-api
+- POPSAT NUTNOST POJMENOVANI ?_id a _prefix u internich vars
 - napsat o factory vs sfsApi init 
+- ukazat network tab
 - sequence diagram na results
 - udelat analyzu facetovych vyhledavacu
 - udelat dokumentaci jak vypada konfigurace facetu, jak vypada vyhledavani
 - nastinit Linked Data Fragments - argumentovat tim caste volani SPARQL endpointu
-- publish React component stories
-- pagination
-
-## KNOWN BUGS
-- autocomplete nema nastavenou value prop
- 
-## SPARQL queries
-select distinct ?label 
-where {
-?id rdfs:label ?label .
-FILTER langMatches(lang(?label), "en")
-FILTER contains(?label, "United")
-} LIMIT 100
+- dát do future work pagination
+- dbpedia do jine branch
+- pridat repo urls do txt prilohy

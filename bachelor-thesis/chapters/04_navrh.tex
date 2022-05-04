@@ -11,22 +11,49 @@ Toto rozdělení nám umožní, aby byl modul vyhledávání zcela nezávislý n
 Realizovat takový modul jde pak dvěmy způsoby - buďto jako samostatná serverová služba nebo jako modul bez využití konstruktů použité platformy, v našem případě React.
 Jelikož lze získávat sémantická data skrze \glref{SPARQL} endpoint, který lze lehko volat přímo z prohlížeče, dává v našem případě větší smysl jít cestou modulu, který bude využíván přímo na frontendu.
 
-Tento modul bude pojmenován {\ssr sfs-api} a bude koncipován tak, aby to bylo samostatná knihovna, kterou lze využít v jakémkoliv Javascript frameworku či prostředí.
-Jelikož však chceme implementovat vyhledávač primárně na platformě React, vytvoříme ještě jednu knihovnu jménem {\ssr react-sfs}, která bude usnadňovat použití {\ssr sfs-api} v React aplikacích.
-Výsledkem tak budou 3 projekty, knihovny {\ssr sfs-api} a {\ssr react-sfs} a finální projekt {\ssr sfs-react-demo}, který bude finálním sémantickým facetovým vyhledávačem a zároveň tak ukázkovým příkladem použití těchto knihoven.
-Knihovny {\ssr sfs-api} a {\ssr react-sfs} budou publikovány v repozitáři NPM\fnote{https://www.npmjs.com}, který je primárním repozitářem Javascriptových balíčků.
+Tento modul bude pojmenován {\em sfs-api} a bude koncipován tak, aby to bylo samostatná knihovna, kterou lze využít v jakémkoliv Javascript frameworku či prostředí.
+Jelikož však chceme implementovat vyhledávač primárně na platformě React, vytvoříme ještě jednu knihovnu jménem {\em react-sfs}, která bude usnadňovat použití {\em sfs-api} v React aplikacích.
+Výsledkem tak budou 3 projekty, knihovny {\em sfs-api} a {\em react-sfs} a finální projekt {\em sfs-react-demo}, který bude finálním sémantickým facetovým vyhledávačem a zároveň tak ukázkovým příkladem použití těchto knihoven.
+Knihovny {\em sfs-api} a {\em react-sfs} budou publikovány v repozitáři NPM\fnote{https://www.npmjs.com}, který je primárním repozitářem Node.js balíčků.
+
+\medskip
+\picw=20cm \cinspic images/sfs-component-diagram.png
+\caption/f Diagram komponent sémantického facetového vyhledávače
+\medskip
+
 
 Součástí publikovaných knihoven nejsou žádné komponenty či web elementy, které by přímo definovaly vizuální podobu samotných facetů či vyhledávání. 
 Záměrně tuto část necháváme na uživateli, abychom ho nijak neomezovali a nevnucovali mu vizuální podobu, která se mu nemusí líbit.
-Obě knihovny však poskytují rozhraní pro tyto web elementy, lze tedy využít i samostatně {\ssr sfs-api} pro jinou platformu než React.
+Obě knihovny však poskytují rozhraní pro tyto web elementy, lze tedy využít i samostatně {\em sfs-api} pro jinou platformu než React.
 
 
 \sec Architektura
 
+\secc [constraints] Constraints
+Při návrhu bylo nutné vyřešit jakým způsobem omezíme možnosti facetů dle jiných aktivních.
+V návrhu je toto řešeno pomocí \uv{contraints}.
+Constraints nazýváme v této práci (a i samotných knihovnách) \glref{SPARQL} patterny, které omezí výsledky dle aktivních facetů.
+Tento nápad a termín byly inspirovány existující knihovnou {\em angular-semantic-faceted-search}\cite[angular-semantic-faceted-search], která je také implementací sémantického facetového vyhledávání.\rfc{možná o ní budu psát už někde předtím}
+
+Abstraktní třída {\ssr Facet} představuje stav facetu. 
+V době psaní této práce nabízí knihovna {\em sfs-api} dva typy facetů (dle naší definice z \ref[typy-facetu]) - checkbox facet a select facet.
+Uživatel může z této třídy dědit a naimplementovat si vlastní facet.
+Toho lze docílit implementováním abstraktních metod {\ssr buildOptionsQuery()}, která by měla vracet query k dotazování možností facetů a {\ssr getFacetConstraints()}, která by měla vracet constraints dle [constraints].
+
+
 
 \sec Popis eventů
+Facety i API komunikují svůj stav mezi sebou pomocí eventů. 
+Pomocí těchto eventů můžeme komunikovat stav i se samotným uživatelským prostředím.
+Jsou tedy klíčové k integraci knihovny do jakékoliv aplikace.
+Abychom si to lépe přiblížili, ukážeme si proces změny hodnoty facetu a reakci ostatních facetů na sekvenčním diagramu níže.
+\medskip
+\picw=20cm \cinspic images/sfs-facet-change-sequence-diagram.png
+\caption/f Sekvenční diagram změny hodnoty facetu
+\medskip
 
 
+\sec Konfigurace (tohle spíš do implementace asi)
 \rfc{pridat listing label}
 \begtt 
 export const sfsApi = new SfsApi({
@@ -59,22 +86,12 @@ ORDER BY ASC(?_label)`,
 });
 \endtt
 
-Facet je reprezentován rozhraním {\ssr Facet} a má své unikátní facetId, dle kterého je dále identifikován.
+Facet je reprezentován rozhraním {\em Facet} a má své unikátní facetId, dle kterého je dále identifikován.
 Jednotlivé typy facetů pak toto rozhraní rozšiřují a implementují jeho metodu \uv{generateSparql}, která se volá při sestavení výsledného \glref{SPARQL} dotazu.
 Vracet by měla část \glref{SPARQL} týkající se tohoto facetu.
 Podpora dalších typů je plánovaná s dalším vývojem vyhledávače. 
 Tento design umožňuje uživateli vytvořit si vlastní typ facetu (implementováním interfacu Facet) pro případy nepokryté knihovnou, s tím, že ho ale stále může kombinovat s ostatními facety.
 
-K připojení jednotlivých facetů používáme modul {\ssr react-sfs}. 
+K připojení jednotlivých facetů používáme modul {\em react-sfs}. 
 Ten za pomoci implementovaného React hooku spojí prezentační vrstvu se stavem facetu a je tak bodem komunikace s druhým modulem.
 K tomu se používá hlavně subscriber pattern, kde je identifikátorem právě ono facetId.
-
-\sec Technologie a knihovny
-Jako součást zadání této práce bylo rozhodnuto, že na implementaci prototypu bude využit javascriptový framework React. 
-Ten je v současné době velmi populární a pro naše potřeby vhodný, díky jeho modularizaci. 
-Použili jsme tedy doporučovanou metodu create-react-app k vytvoření základních modulů. 
-Abychom se nemuseli zaobírat UI prvky prototypu, využili jsme knihovnu MUI (dříve známá také jako Material-UI) a použili připravené komponenty z ní.
-Druhá knihovna, kterou využíváme je fetch-sparql-endpoint \cite[fetch-sparql-endpoint]. 
-Ta nám zjednodušuje volání \glref{SPARQL} endpointu a serializaci příchozích dat do formátu RDFJS. 
-Vybrali jsme ji hlavně proto, že je skutečně jednoduchá, neimplementuje nepotřebné věci navíc a je udržována aktuální.
-Všechen kód je napsaný v Typescriptu, což je nadstavba Javascriptu, která jej rozšiřuje o statické typování a předchází tak spoustě chyb.

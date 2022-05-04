@@ -1,4 +1,39 @@
 \chap Implementace
-V této kapitole si popíšeme postup implementace návrhu {\ssr sfs-api} z předešlé kapitoly \ref[navrh].
-Zdůvodníme si některé rozhodnutí při vývoji a
+V této kapitole si popíšeme postup implementace návrhu {\em sfs-api} z předešlé kapitoly \ref[navrh].
+Zdůvodníme si některé rozhodnutí při vývoji a použité knihovny.
+
+\sec Popis implementace
+Při implementaci jsme
+
+\sec Použité knihovny
+Při vývoji jsme se snažili, aby knihovny měly co nejméně závislostí, aby byly nenáročné na místo a neinstalovali uživateli závislosti, které nepotřebuje nebo nechce.
+Zde si popíšeme využité knihovny.
+Všechny tři projekty jsou napsané v TypeScriptu, což je nadstavba JavaScriptu, která jej rozšiřuje o statické typování a předchází tak spoustě chyb.
+
+\secc sfs-api
+Na balíček {\em sfs-api} jsme si vystačili pouze s třemi závislostmi. 
+Využíváme knihovnu {\em fetch-sparql-endpoint}\fnote{https://www.npmjs.com/package/fetch-sparql-endpoint}.
+Ta nám zjednodušuje volání \glref{SPARQL} endpointu a serializaci příchozích dat do formátu RDFJS. 
+Vybrali jsme ji hlavně proto, že je skutečně jednoduchá, neimplementuje nepotřebné věci navíc a je udržována poměrně aktuální.
+
+Balíček datového modelu RDFJS je druhou závislostí.
+{\em sfs-api} využívá ještě knihovnu {\em sparqljs}\fnote{https://www.npmjs.com/package/sparqljs} ke parsování SPARQL dotazů do JavaScript objektů.
+Skrze tyto objekty můžeme pak query lépe upravovat.
+
+\secc react-sfs
+Knihovna {\em react-sfs} má jako závislost pouze {\em sfs-api}.
+
+\secc sfs-react-demo
+Jako součást zadání této práce bylo rozhodnuto, že na implementaci vyhledávače bude použit JavaScript framework React. 
+K vytvoření projektu vyhledávače, tedy {\em sfs-react-demo} jsme použili doporučenou metodu vytváření React projektů {\em create-react-app}. 
+Ta vytvoří předpřipravený projekt s minimální konfigurací a nejužitečnějšími závislostmi.
+
+Abychom se nemuseli zaobírat UI prvky prototypu, využili jsme knihovnu MUI (také známou také jako Material-UI) a použili připravené komponenty z ní.
+Druhá knihovna, kterou využíváme je fetch-sparql-endpoint \cite[fetch-sparql-endpoint]. 
+Ta nám zjednodušuje volání \glref{SPARQL} endpointu a serializaci příchozích dat do formátu RDFJS. 
+Vybrali jsme ji hlavně proto, že je skutečně jednoduchá, neimplementuje nepotřebné věci navíc a je udržována aktuální.
+
+Za zmínku pak ještě stojí knihovna {\em react-virtuoso}, kterou využíváme na virtualizaci listů s výsledky a možnostmi facetů.
+Virtualizace listu znamená, že se renderuje vždy jen část listu, která je zobrazená a ne ostatní položky, které se zrovna nezobrazují.
+List totiž může obsahovat velmi velké množství dat a renderování všech položek by mohlo znatelně zpomalit naší aplikaci.
 

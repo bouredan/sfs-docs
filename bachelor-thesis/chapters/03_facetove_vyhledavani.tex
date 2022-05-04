@@ -4,6 +4,7 @@ facetového vyhledávání, především z hlediska využití sémantických tec
 poskytované Facet Search \glref{API}s největších společností v této oblasti jako Elastic či Solr.
 
 \sec Popis
+\rfc{je ok začít obrázkem?}
 \medskip
 \picw=15cm \cinspic images/facets-explained.jpeg
 \caption/f Ukázka facetů s vysvětlivkami \cite[facets-explained-image]
@@ -17,10 +18,10 @@ Jelikož není definovaný žádný standard facetového vyhledávání, zadefin
 * jednotlivé facety lze kombinovat mezi sebou
 * mezi kritérii facetů platí logický AND (ne pouze OR), tzn. aby se výsledek objevil v sadě výsledku, musí vyhovět všem aktivním facetům
 * hodnoty facetů ukazují počet výsledků, které aplikování facetu s danou hodnotou v aktuálním stavu vrátí
-* hodnoty facetů, které by vrátily prázdnou sadu výsledků se nezobrazují nebo jsou \uv{disabled}\fnote{Jejich \glref{HTML} ovládací prvek má atribut disabled.}\rfc{zahrnout pouze jestli stihnu dodělat}
+* hodnoty facetů, které by vrátily prázdnou sadu výsledků se nezobrazují nebo jsou \uv{disabled}\fnote{Jejich \glref{HTML} ovládací prvek má atribut disabled.
 \enditems
 
-\sec Typy facetů
+\sec[typy-facetu] Typy facetů
 Facety si můžeme rozřadit dle toho jakým způsobem se volí jejich hodnoty. 
 V této práci budeme tyto kategorie nazývat jako typy facetů.
 
@@ -44,32 +45,33 @@ V této práci budeme tyto kategorie nazývat jako typy facetů.
   V našem prototypu a vzniklých knihovnách nebereme takové vyhledávání jako typ facetu.
 		
 \sec Srovnání přístupů
+\rfc{vysvětlit nějak klientskou stranu vs server}
 Řešení jak implementovat facetové vyhledávání je více. 
-Liší se podle toho, kde dochází k filtrování výsledků facety, jakým způsobem se získávájí možnosti facetů 
-Obecně je lze rozdělit podle toho, kde dochází k filtraci výsledků aktivními facety, tedy jestli na straně klienta či na straně serveru.
-U implementace facetového vyhledávání je také nutné myslet na to jakým způsobem se budou plnit data facetů. Nejčastěji se setkáváme s tím, že se
-hodnoty facetů posílají ve stejné response jako sada výsledků. 
+Liší se hlavně podle toho, kde dochází k filtrování výsledků facety nebo jakým způsobem se získávájí možnosti facetů.
+Například si můžeme vyžádat všechny možné výsledky, z těch sestavit možnosti facetů a poté podle aktivních facetů jen filtrovat stažená data.
+Toto je však u rozsáhlých výsledkových sad poměrně náročné na výkon, jelikož to všechnu zátěž převádí na klienta.
 Po rešerši současných řešení
 
   \secc Filtrování na straně klienta
-  Při filtrování na klientu nám server vždy zašle celou výsledkovou sadu, kterou při zpracování vyfiltrujeme dle aktivních facetů a zobrazíme jen vyfiltrované výsledky.
-  To znamená, že sadu výsledků stačí teoreticky zaslat jen jednou a případně lehce \uv{zacachovat}.
+  Při filtrování na straně klienta nám server vždy zašle celou výsledkovou sadu, ze které zpracováním naplníme možnosti facetů.
+  Po zvolení hodnot facetů pak můžeme jen filtrovat celou výsledkovou sadu a zobrazit jen výsledky, které vyhovují našim kritériím (zvoleným hodnotám facetů).
+  Výhoda toho je, že sadu výsledků stačí teoreticky zaslat jen jednou a poté už s ní jen pracovat.
   Nemusíme tak také řešit zasílaní facetů v komunikaci se serverem a ta se tak stává vcelku přímočará a přehledná.
-  S tím je však ale spojená i hlavní nevýhoda – sada výsledků může být velká, což znamená velké množství dat, které musíme přenést internetem, uložit na klientovi a následně vyfiltrovat.
-  To může při pomalejším spojení nebo malém výpočetním výkonu na klientovi trvat delší dobu. 
+  S tím je však ale spojená i hlavní nevýhoda – sada výsledků může být velmi rozsáhlá, což znamená velké množství dat, které musíme přenést internetem, uložit na klientovi a následně vyfiltrovat.
+  To může při pomalejší rychlosti internetu nebo malém výpočetním výkonu na klientovi trvat velmi dlouho. 
 
   \secc Filtrování na straně serveru
-  Filtrování na serveru většinu \uv{tvrdé dřiny} přenáší na server, což přirozeně zvyšuje jeho zatížení.
+  Filtrování na serveru většinu zátěži přenáší na server, což přirozeně zvyšuje jeho zatížení.
   Musíme serveru spolu s požadavkem předat jaká data chceme (aktivní facety) a on nám musí zpátky poslat již vyfiltrovanou sadu výsledků a nové hodnoty pro tyto facety (společně s počtem jejich výskytů).
   Zároveň to ale znamená, že pokud je server správně implementován, může přidat filtrování už do dotazu do databáze a celý proces tak výrazně zrychlit.
   Pokud k tomu ještě přidáme fakt, že server vrací vyloženě jen data, které požadujeme a kterých velikost tak může být značně nižší (a přenos rychlejší) jedná se tak jednoznačně o rychlejší metodu.
   Zároveň je toto řešení i spolehlivější a lépe škálovatelné.
 	
 \sec Převedení do sémantického světa
-Jak jsme zmínili v minulé kapitole, sémantické data jsou dotazovány pomocí \glref{SPARQL}. 
-V praxi to znamená, že k získání dat musíme zkonstruovat dotaz v syntaxi \glref{SPARQL} a poslat požadavek na publikovaný \glref{SPARQL} endpoint.
-Jelikož se tento endpoint dá provolit i z klienta, nepotřebujeme vůbec server pro facetový vyhledávač.
-Vyplývá nám z toho, že pro sémantická data je lepší použít filtrování už jako součást SPARQL dotazu.
+Jak jsme zmínili v minulé kapitole, je zvykem, že lze sémantická data dotazovat skrz publikovaný \glref{SPARQL} endpoint. 
+Jelikož můžeme na tento endpoint posílat požadavky i z klientské strany, nepotřebujeme vůbec server pro facetový vyhledávač.
+Z tohoto důvodu se zdá být vhodnější pro sémantická data použít filtrování už jako součást \glref{SPARQL} dotazu.
+
 Při konstrukci dotazu je nutné myslet, ale i na to, aby se nám vrátila data s hodnotami facetů. 
 Toho lze docílit použití klauzule OPTIONAL.
 Výsledné řešení pak bude něco mezi oběma popsanými přístupu v minulé sekci.
