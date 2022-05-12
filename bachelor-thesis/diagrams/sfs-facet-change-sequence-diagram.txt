@@ -1,31 +1,26 @@
-title SFS facet change sequence diagram
-
 actor User
-boundary "FacetComponent\n<sfs-react-demo>" as FacetComponent
+boundary "UI" as UI
 participant "useFacet\n<react-sfs>" as useFacet
 participant "Facet\n<sfs-api>" as Facet
-participant "EventStream\n<sfs-api>" as EventStream
 participant "SfsApi\n<sfs-api>" as SfsApi
 database SPARQL endpoint
 
-User->FacetComponent:clicks facet option
-FacetComponent->useFacet:onValueChange(newValue)
-useFacet->Facet:facet.value = newValue
-Facet->EventStream:emit(FacetValueChangedEvent)
-EventStream->useFacet: onFacetValueChangedEvent(event)
-useFacet-->FacetComponent:returns newValue
-FacetComponent->User: renders newValue
-EventStream->Facet: onFacetValueChangedEvent(event)
-opt if event.facetId !== this.id
-Facet->SfsApi:getAllConstraints(this.id)
-SfsApi-->Facet:constraints of API and other active facets
-note over Facet: Facet builds options query from constraints
-Facet->SfsApi:fetchBindings(optionsQuery)
-SfsApi->(1)SPARQL endpoint:sends request with SPARQL
-SPARQL endpoint-->(1)SfsApi:JSON data response
-SfsApi-->Facet:FacetOption array
-Facet->EventStream:emit(FetchFacetOptionsSuccessEvent)
-EventStream->useFacet:onFetchFacetOptionsSuccessEvent(event)
-useFacet-->FacetComponent:returns new options
-FacetComponent->User:render new options
+User->UI:clicks facet option
+UI->useFacet:new value
+useFacet->Facet:new value
+Facet->SfsApi:notify of new value
+
+ref over SfsApi:fetch and render new results
+
+opt other facet value changed
+SfsApi->Facet:other facet value changed
+Facet->Facet:build facet options query
+Facet->SfsApi:fetch new options
+SfsApi->(1)SPARQL endpoint:fetch new options
+SPARQL endpoint-->(1)SfsApi:new options
+SfsApi-->Facet:new options
+Facet-->useFacet:new options
+useFacet-->UI:new options
 end
+
+

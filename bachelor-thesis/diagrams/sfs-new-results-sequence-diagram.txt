@@ -1,0 +1,15 @@
+boundary "UI" as UI
+participant "useFacetSearch\n<react-sfs>" as useFacetSearch
+participant "Facet\n<sfs-api>" as Facet
+participant "SfsApi\n<sfs-api>" as SfsApi
+database SPARQL endpoint
+
+Facet->SfsApi:notify of new value
+SfsApi->Facet:get all facets constraints
+Facet-->SfsApi:facet constraints
+SfsApi->SfsApi:build results query
+SfsApi->(1)SPARQL endpoint:fetch results
+SPARQL endpoint-->(1)SfsApi:new results
+SfsApi->useFacetSearch:new results
+useFacetSearch->UI:new results
+

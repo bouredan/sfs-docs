@@ -19,28 +19,21 @@
 * Berlin SPARQL benchmark
 * Sampo-UI - https://github.com/SemanticComputing/sampo-ui
 
-## Poznámky
-- zminit, ze constraints z sfsApi se zamerne skladaji ve facetu do query kvuli vetsi customizaci
-- pouzit publish-subscribe model obrazek u NSI
-- poznamenat obtize s parsovanim SPARQL kousku a bug only IRI as predicate)
-
-
 ## Konzultace
-
-
+- návrh budoucí čas?
 
 ## TODO
-- pridat evauluaci se srovnáním
-- návrh abstraktní seq diagram v implementaci ten co mám
-- komponent diagram zezhora dolu
-- udealt basic unit testy na sfs-api
-- POPSAT NUTNOST POJMENOVANI ?_id a _prefix u internich vars
-- napsat o factory vs sfsApi init 
-- ukazat network tab
-- sequence diagram na results
-- udelat analyzu facetovych vyhledavacu
-- udelat dokumentaci jak vypada konfigurace facetu, jak vypada vyhledavani
-- nastinit Linked Data Fragments - argumentovat tim caste volani SPARQL endpointu
-- dát do future work pagination
-- dbpedia do jine branch
-- pridat repo urls do txt prilohy
+- přidat labely k listingům, ale nevím jak
+- ukazat network tab SFS vyhledávače
+- možná přidat sekci o Linked Data Fragments - potenciálně velmi vhodné využití pro faceto vyhledávání
+- dodělat unit testy na sfs-api a jejich sekci
+
+## poznámky
+- mozna zminit gettery settery
+- možná přidat zmínku o principech oop
+
+
+(GROUP_CONCAT(?typeId) AS ?typeIds) (GROUP_CONCAT(?typeLabel) AS ?typeLabels)
+    (GROUP_CONCAT(?superClassId) AS ?superClassIds) (GROUP_CONCAT(?superClassLabel) AS ?superClassLabels)
+
+GROUP BY ?_id ?_label ?definition ?schemeId ?schemeLabel

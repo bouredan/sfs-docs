@@ -1,12 +1,30 @@
 \chap Závěr
-V práci jsme se seznámily s pojmem sémantický web a popsali si jeho klíčové technologie. 
-Poté jsme si představily problematiku facetového vyhledávání, kde jsme si zadefinovali jak by to měl vypadat facetový vyhledávač a zanalyzovali způsoby jak jej implementovat.
-S těmito poznatky jsme navrhli a následně implementovali knihovny pro implementaci facetového vyhledávače a s jejich pomocí i vyhledávač samotný.
-Postupně jsme tak splnili všechny cíle této práce.
+V práci jsme se seznámili s pojmem sémantický web a popsali si jeho klíčové technologie.
+Detailněji jsme se hlavně seznámili s technologiemi k ukládání a dotazování dat.
 
-Pokud bude finální vyhledávač implementovaný dobře, mohl by se začít používat jako primární dostupné řešení facetového vyhledávání pro sémantická data.
-Nahradit by mohl i vyhledávač pro Sémantický slovník pojmů udržovaný Ministerstvem Vnitra České Republiky (MVČR) ve společnosti s FEL ČVUT, který je nevyhovující.
+Poté jsme si popsali facetové vyhledávání a zároveň zadefinovali jak by měl vypadat správný facet.
+Rozdělili jsme si typy facetů dle toho jak vypadají z pohledu uživatele.
+Následně jsme zrešeršovali dostupná řešení facetového vyhledávání a vybrali dvě každé s jiným přístupem.
+Zaměřili jsme se také na jejich srovnání z hlediska využití sémantických dat, čímž jsme splnili první z cílů této práce.
 
-Ačkoliv vývoj sémantického webu v minulém desetiletí spíše stagnoval a nepodařilo se mu rozšířit tak jak si jeho autoři přáli, v posledních letech se to však mění.
-S průlomy v posledních v oblasti umělé inteligence či internetu věcí se opět o sémantickém webu mluví jako o jedné z přicházejících klíčových technologií ve vývoji webu a internetu a šlo by tak očekávat jeho výrazný vývoj přímo v následující letech.
-Jestli se predikce potvrdí ukáže čas, ale je možné, že i tato práce pak bude využívána v nově vzniklých aplikacích jako řešení sémantického facetového vyhledávání.
+S nabytými poznatky jsme se pustili do návrhu sémantického facetového vyhledávače.
+Návrh jsme pojali spíše jako návrh knihovny SFS za pomocí které, pak lehce implementujeme samotný vyhledávač.
+Knihovnu jsme rozdělili na balíčky {\em sfs-api}, který je jádrem celé knihovny a {\em react-sfs}, který poskytuje funkce k jednoduché implementaci na platformě React.
+Oba balíčky jsme publikovali v repozitáři Node.js balíčků {\em npm}.
+Samotný vyhledávač je pak projekt {\em sfs-react-demo}, který tyto knihovny využívá a implementuje vizuální vrstvu vyhledávače.
+Tímto jsme splnili druhý a třetí cíl této práce.
+
+Abychom ověřili funkčnost vyhledávače implementovali jsme několik testů.
+Hlavně jsme však vytvořený vyhledávač srovnali s již existujícím Prohlížečem sémantického slovníku pojmů 
+udržovaným Ministerstvem Vnitra České Republiky (MVČR) ve spojení s FEL ČVUT.
+S ohledem na výsledky srovnání jsme doporučili, aby byl starý vyhledávač nahrazen po domluvě a drobných úpravách nově vzniklým.
+Zároveň jsme tímto srovnáním splnili poslední cíl této práce.
+
+Jelikož se dle výsledků vyhodnocení zdá, že je knihovna SFS navržena dobře, mohla by se začít používat jako primární řešení facetového vyhledávání pro sémantická data.
+K tomu je však nejspíše potřeba ještě doimplementovat další funkce, které jsme popsali v sekci \ref[plany-do-budoucna].
+Jelikož je celý projekt open source, mohlo by se tak stát už za pomoci dalších členů open source komunity.
+
+Ačkoliv vývoj sémantického webu v druhé polovině minulého desetiletí spíše stagnoval a nepodařilo se mu možná rozšířit tak jak si jeho autoři přáli, v posledních letech se to však mění.
+S průlomy v posledních letech v oblasti umělé inteligence či internetu věcí se opět o sémantickém webu mluví jako o jedné z přicházejících klíčových technologií ve vývoji webu 
+a internetu a šlo by tak očekávat jeho výrazný vývoj přímo v následující letech.
+Jestli se predikce potvrdí ukáže čas, ale je možné, že i tato práce pak bude využívána v nově vzniklých aplikacích jako řešení sémantického facetového vyhledávání a pomůže tak rozšíření sémantického webu.

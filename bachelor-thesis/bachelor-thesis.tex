@@ -8,7 +8,7 @@
 \title {Sémantické facetové vyhledávání na platformě React}
 
 \author {Daniel Bourek}
-\supervisor {Ing. Martin Ledvinka}
+\supervisor {Ing. Martin Ledvinka, Ph.D.}
 \date {Květen 2022}
 
 \studyinfo {Softwarové inženýrství a technologie}
@@ -18,30 +18,38 @@
 }
 
 \abstractCZ {
-\rfc{předělat abstrakty}
 Práce se zabývá problematiku facetového vyhledávání se zaměřením na jeho použití pro sémantická data.
-Zprvu čtenáře seznámi s pojmy a technologiemi sémantického webu. 
-Pak zanalyzuje přístupy k facetovému vyhledávání a navrhne vhodný pro sémantická data.
-Součástí práce je pak návrh modulu sémantického facetového vyhledávače na platformě React s důrazem na jeho přepoužitelnost.
-Výsledkem je pak jeho implementace, která je také okomentovaná 
+Zprvu čtenáře seznámí s pojmem sémantický web a klíčovými technologiemi, které se ho týkají. 
+Poté zanalyzuje přístupy k facetovému vyhledávání a navrhne vhodný pro sémantická data.
+Jádrem práce je návrh a implementace sémantického facetového vyhledávače na platformě React.
+Celý proces je řádně zdokumentován.
+Na závěr je vyhledávač zevaluován a porovnán s již existujícím na adrese \url{https://slovník.gov.cz/prohlížeč}.
 }
 
 \abstractEN {
-The thesis deals with the issue of facet searching with regard to semantic data.
-First, it introduces the reader to the concepts and technologies of the Semantic Web.
-It then analyzes approaches to facet search and suggests suitable one for semantic data.
-Core of the work is the development of a semantic facet search prototype using JavaScript framework React and emphasising on the reusabilty of this module.
-Thesis is successful in fulfilling its goals.
+Semantic Web is an extension of the current Web which uses semantic data model to express real-world data in a machine-readable format.
+This work deals with designing and implementing faceted search for this semantic data.
+First, it researches and presents key semantic web concepts and technologies.
+It then analyzes approaches to facet search and suggests a suitable approach for semantic data.
+The core of the work is the design and implementation of a semantic faceted search on the React platform.
+The whole process is properly documented.
+Finally, the implemented faceted search is evaluated and compared with the existing one at \url{https://slovník.gov.cz/prohlížeč}.
+}
+
+\keywordsCZ {
+sémantický web, \nl facetové vyhledávání, SPARQL, RDF, React
+}
+
+\keywordsEN {
+Semantic Web, facet search, SPARQL, RDF, React
 }
 
 \thanks{
-\rfc{předělat poděkování}
-Rád bych poděkoval vedoucímu této práce Ing. Martinovi Ledvinkovi za výborné vedení, mnoho doporučení a velkou ochotu na konzultacích při vypracovávání této práce.
-Dále bych chtěl poděkovat své rodině za jejich neustálou podporu při mých studiích.
+	TODO
 }
 
 \declaration {
-Prohlašuji, že jsem předloženou práci vypracoval samostatně.
+Čestně prohlašuji, že jsem předloženou práci vypracoval samostatně a, že jsem uvedl všechnu použitou literaturu.
 
 Daniel Bourek
 V Praze, 15. 5. 2022
@@ -55,13 +63,9 @@ V Praze, 15. 5. 2022
 \input chapters/03_facetove_vyhledavani
 \input chapters/04_navrh
 \input chapters/05_implementace
-\input chapters/06_evaluace
+\input chapters/06_vyhodnoceni
 \input chapters/07_zaver
 
-\bibchap
-\usebib/c (iso690) chapters/literatura
-
-\app Slovníček 
-\makeglos
+\input chapters/prilohy
 
 \bye

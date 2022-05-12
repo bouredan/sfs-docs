@@ -1,0 +1,11 @@
+Repozitář s projektem sfs-react-demo: https://github.com/bouredan/sfs-react-demo
+
+Repozitář s projektem sfs-api: https://github.com/bouredan/sfs-api
+
+Repozitář s projektem react-sfs: https://github.com/bouredan/react-sfs
+
+Pokyny ke spuštění:
+1. Naklonujte si git repozitář s sfs-react-demo pomocí příkazu "git clone git@github.com:bouredan/sfs-react-demo.git".
+2. V adresáři s naklonovaným repozitáři nainstalujte projekt pomocí příkazu "yarn install" nebo "npm install".
+3. Spusťte si lokální verzi projektu pomocí příkazu "yarn start" nebo "npm start".
+4. V prohlížečí si otevřete http://localhost:3000, kde najdete spuštěný projekt.

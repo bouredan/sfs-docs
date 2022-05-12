@@ -1,0 +1,28 @@
+\chap Vyhodnocení
+Tato kapitola se zabývá vyhodnocením implementovaného vyhledávače z předchozích kapitol \ref[navrh] a \ref[implementace].
+Nejdříve představíme testy, které jsme implementovali k ověření jeho funkčnosti.
+Hlavní sekcí však bude srovnání s existujícím vyhledávačem, který jsme v sekci \ref[sparql-faceter] nazvali jako prohlížeč MVČR\urlnote{https://slovník.gov.cz/prohlížeč}.
+Poté představíme plány do budoucna.
+
+\sec [testy] Testy
+TODO až budou hotové testy v sfs-api
+
+\sec [srovnani-s-existujicim-vyhledavacem] Srovnání s existujícím vyhledávačem
+V rámci zadání práce máme porovnat implementovaný vyhledávač s existujícím prohlížečem MVČR.
+To bude náplní této sekce.
+Dle výsledků srovnání se také zamyslíme nad doporučením nahrazení stávajícího prohlížeče naším novým vyhledávačem.
+
+TODO zmínit rychlost načítání, virtualizace, oddělené načítání, jazyk, nezávislost na vizuální podobě, možnost implementace vlastního facetu, lepší labely
+
+\sec [plany-do-budoucna] Plány do budoucna
+Ačkoliv je vyhledávač hotový a funguje, dle předcházejících sekcí \ref[testy] a \ref[srovnani-s-existujicim-vyhledavacem], dobře, stále je několik funkcí, které by bylo dobré v budoucnu implementovat.
+
+V první řadě to je stránkování. 
+Virtualizované listy sice fungují dobře, ale stránkování by mohlo lepší na navigaci ve velkém množství výsledků.
+Dále by bylo příhodné přidat do \glref{URL} parametrů zvolené hodnoty facetů a dotaz na vyhledávání .
+To by nám umožnilo vytvářet odkazy na stav vyhledáváče a tedy i jeho výsledků.
+
+Další věci ke zlepšení do budoucna jsou spíše vývojářské.
+Například třída {\ssr CheckboxFacet} z {\em sfs-api} by mohla být generická místo definovaného typu hodnot {\ssr string[]} nebo by se dalo vylepšit rozhraní {\em sfs-api} skrz třídu {\ssr EventStream}.
+Při používání třídy {\ssr EventStream} totiž může dojít k tomu, že se při více asynchronních požadavcích najednou změní pořadí jejich odpovědí a komponenty by mohly ukazovat špatný stav.
+
