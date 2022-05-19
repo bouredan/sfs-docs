@@ -1,13 +1,13 @@
 \chap [implementace] Implementace
 V této kapitole si popíšeme implementaci návrhu z předešlé kapitoly \ref[navrh].
-Zdůvodníme si některé rozhodnutí při vývoji a použité knihovny.
+Zdůvodníme si některá rozhodnutí při vývoji a použité knihovny.
 
 \sec Použité knihovny
 Při vývoji jsme se snažili, aby knihovny měly co nejméně závislostí, aby byly nenáročné na místo a neinstalovaly uživateli závislosti, které nepotřebuje nebo nechce.
 Zde si popíšeme využité knihovny.
-Všechny tři projekty jsou napsané v jazyku TypeScriptu, což je nadstavba jazyku JavaScript, která jej rozšiřuje o statické typování a předchází tak spoustě chyb.
+Všechny tři projekty jsou napsané v jazyce TypeScript, což je nadstavba jazyku JavaScript, která jej rozšiřuje o statické typování a předchází tak spoustě chyb.
 
-Na balíček {\em sfs-api} jsme si vystačili pouze s třemi závislostmi. 
+Na balíček {\em sfs-api} jsme si vystačili pouze se třemi závislostmi. 
 Využíváme knihovnu {\em fetch-sparql-endpoint}\urlnote{https://www.npmjs.com/package/fetch-sparql-endpoint}.
 Ta nám zjednodušuje volání \glref{SPARQL} endpointu a serializaci příchozích dat do formátu RDFJS. 
 Vybrali jsme ji hlavně proto, že je skutečně jednoduchá, neimplementuje nepotřebné věci navíc a je udržována poměrně aktuální.
@@ -20,13 +20,13 @@ Knihovna {\em react-sfs} má jako závislost pouze {\em sfs-api}.
 
 Jako součást zadání této práce bylo rozhodnuto, že na implementaci vyhledávače bude použit JavaScript framework React. 
 K vytvoření projektu vyhledávače, tedy {\em sfs-react-demo} jsme použili doporučenou metodu vytváření React projektů {\em create-react-app}. 
-Ta vytvoří předpřipravený projekt s minimální konfigurací a nejužitečnějšími závislostmi.
+Ta vytvoří předpřipravený projekt s minimální konfigurací a potřebnými závislostmi.
 
 Abychom si usnadnili vytváření \glref{UI} vyhledávače, využili jsme populární knihovnu MUI (známou též jako Material-UI) a použili připravené komponenty z ní.
 
 Za zmínku pak ještě stojí knihovna {\em react-virtuoso}, kterou využíváme na virtualizaci listů s výsledky a možnostmi facetů.
-Virtualizace listu znamená, že se renderuje vždy jen část listu, která je zobrazená a ne ostatní položky, které se zrovna nezobrazují.
-List totiž může obsahovat velmi velké množství dat a renderování všech položek by mohlo znatelně zpomalit naší aplikaci.
+Virtualizace listu znamená, že se vykresluje vždy jen část listu, která je zobrazená a ne ostatní položky, které se zrovna nezobrazují.
+List totiž může obsahovat velmi velké množství dat a vykreslování všech položek by mohlo znatelně zpomalit naší aplikaci.
 
 \sec Implementační detaily
 Implementace probíhala poměrně podle plánu s minimálními odchylkami od návrhu.
@@ -34,7 +34,7 @@ V této sekci si však zmíníme některé detaily, které jsou zajímavé a kte
 
 Původně bylo zamýšleno, že při konfiguraci budou {\ssr SfsApi} předány pouze objekty rozhraní {\ssr FacetConfig}, se 
 specifikovaným typem facetu a {\ssr SfsApi} teprve při konstrukci vytvoří jednotlivé instance podtříd.
-Dobře by se na toto dal využít {\em Factory pattern}.
+Dobře by se na toto dal využít návrhový vzor Factory pattern~\cite[design-patterns].
 To se však ukázalo jako těžko proveditelné, pokud chceme zachovat možnost implementovat si vlastní podtřídu {\ssr Facet}.
 Třída {\ssr SfsApi} by těžko věděla jakou třídu zkonstruovat pro custom facety.
 Lepší tedy pro nás bylo předat třídě {\ssr SfsApi} rovnou instance podtříd třídy {\ssr Facet}.
@@ -43,10 +43,10 @@ Dalším detailem, který se lehce proměnil bylo skládání constraints z {\ss
 Zpočátku se tyto constraints přidávaly do query až v třídě {\ssr SfsApi}, nakonec se však vytvořila metoda v {\ssr SfsApi} 
 pro získání constraints a skládání se tak přesunulo do samotných facetů.
 To umožňuje větší variabilitu pro implementaci vlastního facetu.
-Uživatel si může sám rozhodnout jak chce naložit s aktuálními constraints ostatních facetů či celého facetového vyhledávání.
+Uživatel si může sám rozhodnout, jak chce naložit s aktuálními constraints ostatních facetů či celého facetového vyhledávání.
 
 S constraints souvisí i další detail, který popíšeme.
-S částmi \glref{SPARQL} query jsme chtěli co nejvíce pracovat jako s objektami dle typů ze {\em sparqljs}.
+S částmi \glref{SPARQL} query jsme chtěli co nejvíce pracovat jako s objekty dle typů ze {\em sparqljs}.
 Výhodami toho je menší chybovost díky typovosti těchto objektů a zároveň jasnější a srozumitelnější kód.
 Problém však nastal při implementování constraints facetu.
 Pokud totiž měl facet v {\ssr FacetConfig} jako {\ssr predicate} \glref{IRI}, které bylo složeno z prefixu definovaným v {\ssr SfsApiConfig}, nastal 

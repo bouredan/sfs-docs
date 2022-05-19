@@ -1,38 +1,42 @@
 \chap[navrh] Návrh
-\rfc{míchám v celé kapitole budoucí čas s přítomným, je to ok?}
-Výsledkem této práce je sémantický facetový vyhledávač na platformě React.
+Výsledkem této práce je sémantický facetový vyhledávač.
 Tato kapitola se bude zabývat jeho návrhem.
 Nejprve navrhneme architekturu vyhledávače, poté popíšeme jednotlivé části návrhu.
 
-
 \sec Architektura
 Při návrhu architektury je nutné dbát na to, aby byl vyhledávač rozdělený na moduly vyhledávání a jeho vizualizace.
-Toto rozdělení nám umožní, aby byl modul vyhledávání zcela nezávislý na použité platformě.
-Realizovat takový modul jde pak dvěma způsoby - buďto jako samostatná serverová služba nebo jako modul bez využití konstruktů použité platformy, v našem případě React.
-Jelikož lze získávat sémantická data skrze \glref{SPARQL} endpoint, který lze dotazovat volat přímo z prohlížeče, je v našem případě vhodnější jít cestou modulu, který bude využíván přímo na frontend.
+Toto rozdělení nám umožní, aby byl modul vyhledávání zcela nezávislý na použité platformě pro vizualizaci.
+Realizovat takový modul jde pak dvěma způsoby - buďto jako samostatná serverová služba nebo jako modul bez využití konstruktů nějaké platformy.
+Jelikož lze získávat sémantická data skrze \glref{SPARQL} endpoint, který lze dotazovat přímo z prohlížeče, je v našem případě vhodnější jít cestou modulu, který bude využíván přímo na frontendu.
 
-Tento modul bude pojmenován {\em sfs-api} a bude koncipován tak, aby to bylo samostatná knihovna, kterou lze využít v jakémkoliv Javascript frameworku či prostředí.
-Jelikož však chceme implementovat vyhledávač primárně na platformě React, vytvoříme ještě jeden balíček\fnote{Balíčkem je myšlen Node.js balíček definovaný package.json.} jménem {\em react-sfs}, která bude ještě zjednodušovat rozhraní {\em sfs-api} pro React aplikace.
-Výsledkem tak budou 3 projekty, balíčky {\em sfs-api} a {\em react-sfs} a finální projekt {\em sfs-react-demo}, který bude naším sémantickým facetovým vyhledávačem a zároveň také ukázkovým příkladem použití těchto balíčků.
-Balíčky {\em sfs-api} a {\em react-sfs} budou veřejně publikovány v repozitáři {\em npm}\urlnote{https://www.npmjs.com}, který je primárním repozitářem Node.js balíčků.
+Tento modul bude pojmenován {\em sfs-api} a bude koncipován tak, aby to byla samostatná knihovna, kterou lze využít v jakémkoliv Javascript frameworku či prostředí.
+Jelikož však chceme implementovat vyhledávač primárně ve frameworku React, vytvoříme ještě jeden balíček\fnote{Balíčkem je myšlen Node.js balíček definovaný souborem package.json.} jménem {\em react-sfs}, který bude ještě zjednodušovat rozhraní {\em sfs-api} pro React aplikace.
+Framework React jsme zvolili, jelikož byl původně součástí zadání práce, je to nejpopulárnější framework na tvorbu webových aplikací\cite[most-used-web-frameworks] a autor práce s ním má několikaleté zkušenosti.
+
+Výsledkem tak budou dva balíčky {\em sfs-api} a {\em react-sfs}, které budou veřejně publikovány v repozitáři {\em npm}\urlnote{https://www.npmjs.com}, který je primárním repozitářem Node.js balíčků. 
 Jejich názvy jsou odvozené z SFS\fnote{Zkratka pro \uv{semantic faceted search}, česky sémantické facetové vyhledávání.}, což je název naší knihovny a budeme na ni tak v práci dále odkazovat.
+Architekturu implementace knihovny SFS ilustrujeme na diagramu komponentu na obrázku \ref[diagram-komponent].
 
-\midinsert
-\picw=15cm \cinspic images/sfs-component-diagram.png
-\caption/f Diagram komponent sémantického facetového vyhledávače
-\endinsert
+\medskip \label[diagram-komponent]
+\picw=14cm \cinspic images/sfs-component-diagram.png
+\caption/f Diagram komponent sémantického facetového vyhledávače.
+\medskip
 
-Součástí publikovaných balíčku nejsou žádné komponenty či webové prvky, které by definovaly vizuální podobu samotných facetů či vyhledávání. 
+Abychom ukázali integraci knihovny SFS, vytvoříme projekt {\em sfs-react-demo}, který bude ukázkovým příkladem použití této knihovny.
+Zároveň bude naším sémantickým facetovým vyhledávačem, který budeme srovnávat v sekci \ref[srovnani-s-existujicim-vyhledavacem].
+Na tento vyhledávač budeme dále v práci odkazovat jako na \uv{vyhledávač SFS}.
+
+Součástí publikovaných balíčků nebudou žádné komponenty či webové prvky, které by definovaly vizuální podobu samotných facetů či vyhledávání. 
 Záměrně tuto část necháváme na uživateli knihovny, abychom ho nijak neomezovali a nevnucovali mu vizuální podobu.
 Může se však inspirovat komponenty v našem vyhledávači {\em sfs-react-demo}.
-Díky tomu se dá knihovna snadně integrovat do různých projektů.
+Díky tomu se dá knihovna snadno integrovat do různých projektů.
 
 \sec sfs-api
 V této sekci si popíšeme důležité části balíčku {\em sfs-api}.
 Tyto části jsou jádrem celé knihovny SFS.
 
 \secc [facet] Facet
-Stav facetu lze definovat jako jeho aktuální možnosti a vybraná hodnota.
+Stav facetu lze definovat jako jeho aktuální možnosti a vybranou hodnotu z nich (nebo žádnou).
 Tento stav pro nás bude představovat abstraktní třída {\ssr Facet}.
 Jednotlivé typy facetů budou pak podtřídami třídy {\ssr Facet}.
 Tento design bude uživateli knihovny SFS umožňovat namodelovat si vlastní facet vytvořením vlastní podtřídy třídy {\ssr Facet}.
@@ -48,7 +52,7 @@ interface FacetConfig {
   labelPredicates?: string[],
 }
 \endtt
-Konfigurace třídy {\ssr Facet} je reprezentována rozhraním {\ssr FacetConfig}.
+Konfigurace třídy {\ssr Facet} je reprezentována rozhraním {\ssr FacetConfig}, které můžeme vidět výše.
 
 Součástí {\ssr FacetConfig} je {\ssr id}, které je primárním identifikátorem facetu a musí být unikátní v rámci jednoho {\ssr SfsApi}.
 
@@ -57,6 +61,17 @@ Toto může být \glref{IRI} a můžeme využít i klauzule {\ssr PREFIX} defino
 
 {\ssr labelPredicates} jsou pak predikáty, které chceme použít k najití názvů jednotlivých možností facetu.
 Jsou aplikovány v pořadí elementů v poli a pokud žádný nenajde název nebo {\ssr labelPredicates} nedefinujeme bude použito {\ssr id} možnosti, tedy celé její \glref{IRI}.
+
+Jednotlivé možnosti facetů jsou reprezentovány rozhraním {\ssr FacetOption}, které je popsáno níže.
+\begtt
+interface FacetOption {
+  value: string,
+  label: string,
+  count: number,
+}
+\endtt
+{\ssr value} je samotnou hodnotou možnosti, {\ssr label} jejím jménem, pod kterým se zobrazuje a {\ssr count} počet jejího výskytu.
+
 
 \secc SfsApi
 Rozhraním celého facetového vyhledávání bude třída {\ssr SfsApi}.
@@ -73,6 +88,9 @@ interface SfsApiConfig {
 
 Důležitým atributem je {\ssr baseQuery}, který by měl obsahovat \glref{SPARQL} query, která se používá k dotazování výsledků.
 Tato query je klíčová, protože se z ní skládají i query pro možnosti facetů.
+Skládání query funguje na podobném principu jako byl popsaný pro SPARQL Faceter v sekci \ref[srovnani-pristupu], akorát {\ssr baseQuery} 
+není šablonou, ale přímo query a nepotřebuje tak nějakou speciální klauzuli.
+Převede totiž {\ssr baseQuery} do objektu \glref{SPARQL} query a všechny části query v klauzuli {\ssr WHERE} poskytuje jako constraints ostatním facetům.
 
 Součástí této query musí být proměnné {\ssr _id} a {\ssr _label}.
 Proměnná {\ssr _id} představuje primární identifikátor jednotlivých výsledků a {\ssr _label} pak jejich jméno, kterým by měly být označeny.
@@ -85,20 +103,21 @@ V rámci hledání také můžeme poskytnout {\ssr searchPattern}, což je fráz
 Tato funkce představuje fulltextové vyhledávání zmíněné v sekci popisu facetového vyhledávání \ref[popis-facetoveho-vyhledavani].
 
 \secc Eventy
-Hlavní rozhraní pro komunikaci události, které nastanou v rámci facetového vyhledávání je třída {\ssr EventStream}.
-Ta využívá komunikační model Publish-Subscribe.
-V tomto modelu mohou vydavatelé (publisher) skrze zprostředkovatele (broker) posílat data na nějaké téma (topic).
-Odběratelé (subscriber) mohou toto téma odebírat a zprostředkovatel jim všechny data na to téma rozesílá.
+Hlavní rozhraní pro komunikaci událostí, které nastanou v rámci facetového vyhledávání je třída {\ssr EventStream}.
+Ta využívá komunikační model Publish-Subscribe ilustrovaným na obrázku \ref[event-stream].
+V tomto modelu mohou vydavatelé (publisher) skrze zprostředkovatele (broker) posílat data na nějaké téma (topic)~\cite[design-patterns].
+Odběratelé (subscriber) mohou toto téma odebírat a zprostředkovatel jim všechna data na to téma rozesílá.
 
-\medskip
-\picw=15cm \cinspic images/EventStream-diagram.png
-\caption/f Diagram znázorňující komunikační model Publish-Subscribe třídy {\ssr EventStream}\fnote{Inspirováno obrázkem z prezentace Stanislava Vítka\cite[nsi-publish-subscribe].}
+\medskip \label[event-stream]
+\picw=14cm \cinspic images/EventStream-diagram.png
+\caption/f Diagram komunikačního modelu Publish-Subscribe třídy {\ssr EventStream}\fnote{Inspirováno obrázkem z prezentace Stanislava Vítka~\cite[nsi-publish-subscribe].}.
 \medskip
 
 V případě třídy {\ssr EventStream} je ona tím zprostředkovatelem.
 Vydavatelé a odběratelé jsou ostatní třídy {\ssr Facet}, {\ssr SfsApi} nebo cokoliv dalšího, co uživatel knihovny SFS přihlásí k odběru (např. komponenty facetů).
 Přihlašování probíhá skrze metodu {\ssr on(eventType, callback)}. 
 Parametr {\ssr eventType} je typem eventu, který chceme odebírat, {\ssr callback} pak funkce, která se vykoná když event nastane.
+Možné typy eventů jsou popsány níže.
 \begtt
 type EventType =
   | "RESET_STATE"
@@ -120,19 +139,19 @@ interface FetchFacetOptionsSuccessEvent {
 }
 \endtt
 
-Díky odebíráním těchto eventů může uživatelské rozhraní na stav facetů.
+Díky odebírání těchto eventů může uživatelské rozhraní reagovat na stav facetů.
 Pro platformu React toto ještě zjednodušuje balíček {\em react-sfs}, který bude popsán v následují sekci \ref[navrh-react-sfs].
 
 
 \sec [navrh-react-sfs] react-sfs
 Balíček {\em react-sfs} má zjednodušovat rozhraní pro použití knihovny SFS na platformě React.
 Poskytuje dvě funkce {\ssr useFacet} a {\ssr useFacetSearch}. 
-Tento typ funkcí se ve světě platformy React nazývá \uv{hook}\cite[react-hooks].
+Tento typ funkcí se ve světě platformy React nazývá \uv{hook}~\cite[react-hooks].
 Funkce hook umožňují jednoduše sdílet části kódu v různých React komponentách.
 
 Hook {\ssr useFacet} má poskytovat rozhraní pro komponenty jednotlivých facetů.
 Poskytuje možnosti facetů, aktuální hodnotu nebo stav požadavku na nové možnosti.
-Toto rozhraní je generické, jelikož hodnoty různých druhů facetů mohou mít různé typy.
+Toto rozhraní je generické, jelikož hodnoty různých druhů facetů mohou mít různé typy a je popsáno níže.
 \begtt
 type UseFacet<Value> = (facet: Facet<Value>) => UseFacetResult<Value>;
 
@@ -146,7 +165,7 @@ interface UseFacetResult<Value> {
 \endtt
 
 {\ssr useFacetSearch} pak poskytuje podobné rozhraní pro výsledky facetového vyhledávání.
-Parametrem je tedy tedy třída {\ssr SfsApi}.
+Parametrem je tedy třída {\ssr SfsApi}.
 \begtt
 type UseFacetSearch = (sfsApi: SfsApi) => UseFacetSearchResult;
 
@@ -158,22 +177,29 @@ interface UseFacetSearchResult {
 }
 \endtt
 
-Tyto rozhraní bylo inspirováno populárními knihovnami jako RTK Query\cite[rtk-query] nebo SWR\cite[swr].
+Tato rozhraní byly inspirovány populárními knihovnami jako RTK Query~\cite[rtk-query] nebo SWR~\cite[swr].
 
 \sec Přístup k facetovému vyhledávání
 V sekci \ref[analyza-pristupu-k-facetovemu-vyhledavani] jsme si zanalyzovali dva existující přístupy k facetovému vyhledávání.
-Náš přístup bude velmi podobný tomu druhému, tedy SPARQL Faceter\fnote{To nemusí být úplně překvapivé, jelikož je to také knihovna na sémantické facetové vyhledávání.}.
-Každý facet (v našem případě už tím můžeme myslet naší třídu {\ssr Facet}) si bude sám sestrojovat dle aktuálního stavu \glref{SPARQL} query na získání jeho možností.
+Náš přístup bude velmi podobný tomu druhému, tedy SPARQL Faceter.
+
+Každý facet (v našem případě už tím myslíme přímo naší třídu {\ssr Facet}) si bude sám sestrojovat dle aktuálního stavu \glref{SPARQL} query na získání jeho možností.
 Odesílat tento dotaz na \glref{SPARQL} endpoint však bude vždy třída {\ssr SfsApi}.
 Ta doplní query facetu o constraints ostatních facetů, či omezení fulltextovým vyhledáváním, které je také součástí facetového vyhledávání.
 Přidá také klauzule {\ssr PREFIX}, které jsou definovány atributem prefixes.
+Tento proces je ilustrován na sekvenčním diagramu na obrázku~\ref[sekvencni-diagram-facetu].
 
-\midinsert
-\picw=16cm \cinspic images/sfs-facet-change-sequence-diagram.png
-\caption/f Sekvenční diagram změny hodnoty facetu
+\midinsert \label[sekvencni-diagram-facetu]
+\picw=14cm \cinspic images/sfs-facet-change-sequence-diagram.png
+\caption/f Sekvenční diagram změny hodnoty facetu.
 \endinsert
 
-\midinsert
-\picw=16cm \cinspic images/sfs-new-results-sequence-diagram.png
-\caption/f Sekvenční diagram získávání nových výsledků
+Dotaz na výsledky pak bude v režii {\ssr SfsApi}. 
+Ta po změně hodnoty facetu zkonstruuje query na výsledky zakomponováním constraints od jednotlivých facetů.
+Požadavek s touto query odešle na \glref{SPARQL} endpoint a po získání výsledků notifikuje zainteresované instance.
+To je opět znázorněno sekvenčním diagramem na dalším obrázku~\ref[sekvencni-diagram-vysledku].
+
+\midinsert \label[sekvencni-diagram-vysledku]
+\picw=14cm \cinspic images/sfs-new-results-sequence-diagram.png
+\caption/f Sekvenční diagram získávání nových výsledků.
 \endinsert

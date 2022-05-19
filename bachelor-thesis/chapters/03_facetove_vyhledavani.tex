@@ -1,34 +1,35 @@
 \chap Facetové vyhledávání
-V této kapitole si nejprve popíšeme, co je facetové vyhledávání a jak může vypadat z pohledu uživatele. 
+V této kapitole si popíšeme, co je facetové vyhledávání a jak může vypadat z pohledu uživatele. 
 Poté si zanalyzujeme různé přístupy k implementaci facetového vyhledávání díky rešerši populárních řešení.
 Nakonec tyto přístupy srovnáme z hlediska využití sémantických technologií.
 
 
 \sec [popis-facetoveho-vyhledavani] Popis
 
-\rfc{je ok začít sekci obrázkem?}
-\medskip
+\medskip \label[ukazka-facetu]
 \picw=15cm \cinspic images/facets-explained.jpeg
-\caption/f Ukázka facetů s vysvětlivkami \cite[facets-explained-image]
+\caption/f Ukázka facetového vyhledávání s vysvětlivkami~\cite[facets-explained-image].
 \medskip
 
 Facetové vyhledávání je zatřídění vyhledaných výsledků do různých kategorií (facetů) dle kterých se dá sada výsledků dále filtrovat.
-Dá se jím tak obohatit každé vyhledávání, ale často bývá spojeno s fulltextovým vyhledáváním\fnote{Fulltextové vyhledávání je technika hledání textu dle zadání uživatele v elektronických dokumentech a databázích\cite[fulltextove-vyhledavani].\rfc{je ok mit zdroj na fulltextové vyhledávání z wikipedie?}}, aby uživateli umožnilo jeho dotaz dále upřesnit.
-Hojně se využívá třeba v e-commerce sektoru, kde podle studie Nielsen Norman Group (NNG) z roku 2018 jsou e-shopy bez facetového vyhledávání výjimkou \cite[nng-study].
-
+Dá se jím tak obohatit každé vyhledávání, ale často bývá spojeno s fulltextovým vyhledáváním\fnote{Fulltextové vyhledávání je technika hledání textu zadaného uživatelem v elektronických dokumentech a databázích~\cite[full-text-search].}, kde uživateli umožňuje dále upřesnit výsledky jeho vyhledávání.
+Hojně se využívá třeba v e-commerce sektoru, kde podle studie Nielsen Norman Group (NNG) z roku 2018 jsou e-shopy bez facetového vyhledávání výjimkou~\cite[nng-study].
 Facety bývají částo znázorněny webovými elementy select či checkbox nebo také posuvníky.
-Omezením, podle kterých facet filtruje výsledky a možnosti ostatních facetů po výběru hodnoty budeme v této práci nazývat \uv{constraints}.
+Příklad využití facetů v e-shopu společně s vysvětlikami je ilustrován na obrázku \ref[ukazka-facetu].
+
+Po zvolení hodnoty facetu, facet, dle této hodnoty, filtruje výsledky vyhledávání a většinou také možnosti ostatních facetů.
+Podmínky, kterým musí výsledek či možnost facetu vyhovět, aby úspěšně prošli tímto filtrováním, budeme v této práci nazývat \uv{constraints}.
+\nl
 
 Jelikož není definovaný žádný standard facetového vyhledávání, zadefinujeme si, co by měl takový modul facetového vyhledávání splňovat:
 \begitems
 * Facet obsahuje možnosti pro každý unikátní výsledek ze sady výsledků.
 * Jednotlivé facety lze kombinovat mezi sebou.
 * Po výběru hodnoty facetu se musí aktualizovat možnosti ostatních facetů.
-* Mezi omezeními výsledků dle hodnot facetů platí logický {\ssr AND}, tzn. aby se výsledek objevil v sadě výsledku, musí vyhovět všem aktivním facetům.
+* Mezi constraints facetů platí logický {\ssr AND}, tzn. aby se výsledek objevil v sadě výsledků, musí vyhovět všem aktivním facetům.
 * Možnosti facetů ukazují počet výsledků, které aplikování facetu s danou hodnotou v aktuálním stavu vrátí.
 * Možnosti facetů, které by vrátily prázdnou sadu výsledků se nezobrazují nebo jsou \uv{disabled}\fnote{Jejich \glref{HTML} ovládací prvek má atribut disabled.
 \enditems
-
 
 
 \sec[typy-facetu] Typy facetů
@@ -46,6 +47,10 @@ Facet s možností volby více hodnot skrz zaškrtávání checkboxů.
 Facet pro číselná data s možností nastavení rozsahu. 
 Ovládacím prvkem bývá posuvník (input element s hodnotou atributu type range).
 
+\secc Date facet
+Facet pro výběr datumu.
+Většinou otevře komponent kalendáře, tzv. date picker, kde je možné vybrat datum, či časové rozmezí.
+
 \secc Bucket facet
 Podobné jako range facet, ale neovládá se posuvníkem, ale jsou nadefinovány a pojmenovány rozsahy, dle kterých se pak dají výsledky filtrovat.
 
@@ -56,13 +61,13 @@ Filtruje výsledky dle zadaného textu.
 
 \sec[analyza-pristupu-k-facetovemu-vyhledavani] Analýza přístupu k facetovému vyhledávání
 Abychom získali lepší přehled o facetovém vyhledávání, zanalyzujeme si dvě jeho řešení, každé s odlišným přístupem k facetovému vyhledávání.
-Tyto řešení byly do práce vybrány jako ukázkové příklady po rešerši dostupných knihoven pro facetové vyhledávání.
+Ty byly do práce vybrány jako ukázkové příklady po rešerši dostupných řešeních facetového vyhledávání.
 Nejdříve zanalyzujeme facetové vyhledávání od Elasticsearch, které je typickým řešení facetového vyhledávání pro běžná data.
 Poté si rozebereme sémantický facetový vyhledávač SPARQL Faceter.
 
 \secc Elasticsearch
-Elasticsearch je open source\fnote{Kvůli nedávné změně licence už technicky není úplně open source, stále má však veřejný kód a od založení fungoval jako open source.} nástroj pro fulltextové vyhledávání nad různými daty\cite[elasticsearch].
-Má mnoho funkcí a možností, nás však zajímá pouze je část pro práci s facety.
+Elasticsearch je open source\fnote{Kvůli nedávné změně licence už technicky není úplně open source, stále má však veřejný kód a od založení fungoval jako open source.} nástroj pro fulltextové vyhledávání nad různými daty~\cite[elasticsearch].
+Má mnoho funkcí a možností, nás však zajímá pouze jeho část pro práci s facety.
 \begtt
 {
   "query": "park",
@@ -78,9 +83,12 @@ Má mnoho funkcí a možností, nás však zajímá pouze je část pro práci s
   }
 }
 \endtt 
-Výše můžeme vidět ukázkový požadavek na vyhledávání query \uv{park} společně s definováním facetu pro další filtrování\cite[elasticsearch-facet-api].
+Výše můžeme vidět ukázkový požadavek na vyhledávání query \uv{park} společně s definováním facetu pro další filtrování~\cite[elasticsearch-facet-api].
 Facet je definován jménem \uv{top-five-states} a požaduje 5 možností řazených sestupně dle počtu výskytů.
 Očekáváme tedy, že možnosti facetů budou poslány společně s výsledky vyhledávání.
+
+Níže pak máme odpověď na tento požadavek.
+Možnosti facetů jsou strukturovány vždy jako hodnota a počet výskytů.
 \begtt
 {
   ## odpověď obsahuje více polí, která však pro nás nejsou důležitá
@@ -119,35 +127,72 @@ Očekáváme tedy, že možnosti facetů budou poslány společně s výsledky v
   }
 }
 \endtt
-Zde pak máme odpověď na požadavek.
-Možnosti facetů jsou strukturovány vždy jako hodnota a počet výskytů.
 
 \secc [sparql-faceter] SPARQL Faceter
-Dalším příkladem přístupu k facetovému vyhledávání je modul na sémantické facetové vyhledávání od výzkumné skupiny Semantic Computing (SeCo)\cite[seco] s názvem SPARQL Faceter\cite[sparql-faceter-docs].
-Balíček tohoto modulu se jmenuje {\em angular-semantic-faceted-search} a je to knihovna pro JavaScript framework Angular.
+Dalším příkladem přístupu k facetovému vyhledávání je modul na sémantické facetové vyhledávání od výzkumné skupiny Semantic Computing (SeCo)~\cite[seco] s názvem SPARQL Faceter~\cite[sparql-faceter-docs].
+Balíček tohoto modulu se jmenuje {\em sparql-faceter} a je to knihovna pro JavaScript framework Angular.
+
 Tato knihovna je pro nás důležitá ze dvou důvodů.
 Zaprvé je to jedno z mála řešení facetového vyhledávání pro sémantická data, tudíž může být inspirací pro náš návrh.
-Zadruhé je touto knihovnou implementován sémantický facetový vyhledávač, se kterým se bude porovnávat i vyhledávač vzniklý v rámci této práce.
-Porovnání těchto vyhledávačů se budeme věnovat v sekci \ref[srovnani-s-existujicim-vyhledavacem], tudíž nebudeme v této sekci \uv{zabrušovat}\fnote{Abychom z toho nemuseli pak zase \uv{vybrušovat}.} do úplných implementačních detailů, ale pouze se podíváme, jakým způsobem se posílají požadavky na výsledky a možnosti facetů.
-Zmíněný existující sémantický facetový vyhledávač\urlnote{https://slovník.gov.cz/prohlížeč} budeme dále v práci nazývat jako prohlížeč MVČR.
+Zadruhé je touto knihovnou implementován sémantický facetový vyhledávač, se kterým se bude srovnávat i vyhledávač vzniklý v rámci této práce.
+Srovnání těchto vyhledávačů se budeme věnovat v sekci \ref[srovnani-s-existujicim-vyhledavacem], tudíž nebudeme v této sekci \uv{zabrušovat}\fnote{Abychom z toho nemuseli pak zase \uv{vybrušovat}.} 
+do úplných implementačních detailů, ale pouze se podíváme, jakým způsobem se posílají požadavky na výsledky a možnosti facetů.
+Zmíněný existující sémantický facetový vyhledávač\urlnote{https://slovník.gov.cz/prohlížeč} budeme dále v práci nazývat jako \uv{prohlížeč MVČR}.
 
 Jako příklad na kterém budeme SPARQL Faceter analyzovat jsme si příhodně vybrali prohlížeč MVČR, který má dva facety.
 Požadavky, které posílá SPARQL Faceter jsou prosté \glref{HTTP} POST či GET požadavky na \glref{SPARQL} endpoint\fnote{V tomto případě \url{https://slovník.gov.cz/sparql}.}.
 Samotnou \glref{SPARQL} query pak skládá právě knihovna SPARQL Faceter na klientské straně.
 
-\medskip \label[prohlizec-mvcr-network-requests]
-\picw=15cm \cinspic images/prohlizec-mvcr-network-requests.png
-\caption/f Asynchronní požadavky prohlížeče MVČR při načtení stránky
+\medskip \label[prohlizec-mvcr-network-requests] 
+\picw=14cm \cinspic images/prohlizec-mvcr-network-requests.png
+\caption/f Asynchronní požadavky prohlížeče MVČR na \glref{SPARQL} endpoint při načtení stránky.
 \medskip
 
 Obrázek \ref[prohlizec-mvcr-network-requests] ukazuje asynchronní požadavky, které se odešlou při načítání stránky prohlížeče MVČR.
-Z analýzy asynchronních požadavků můžeme vidět, že SPARQL Faceter posílá požadavek na možnosti facetu pro každý facet zvlášť.
-Požadavek na výsledky se pošle také zvlášť.
-To je velký rozdíl oproti Elasticsearch, kde se dotaz na možnosti facetů posílal společně s dotazem na výsledky.
-Zároveň se posílá ještě jeden požadavek na zjištění počtu všech výsledků, který se zobrazuje u facetů pro žádnou nevybranou možnost.
-Všechny tyto čtyři požadavky se posílají při každé změně facetu. 
+Z tohoto obrázku můžeme vidět, že se při načtení stránky prohlížeče pošlou celkem čtyři asynchronní požadavky na \glref{SPARQL} endpoint.
+První dotazuje celkový počtu výsledků. 
+Tento počet se zobrazuje u facetů pro žádnou nevybranou možnost.
+Další dva požadavky jsou pak na možnosti facetů v tomto prohlížeči, které jsou dva.
+Pro každý z facetů se tedy odesílá separátní požadavek na jeho možnosti.
+Posledním je pak požadavek na samotné výsledky vyhledávání.
+Všechny požadavky jsou zaslány současně a posílají se při každé změně facetu.
 Jejich \glref{SPARQL} query se však samozřejmě liší podle aktuálního stavu.
 
-		
-\sec Srovnání přístupů z hlediska sémantických technologií
-TODO moc nevím jak tuto sekci pojmout\rfc{jak tuto sekci pojmout?}
+Tento přístup je velmi odlišný od Elasticsearch, kde se vše posílalo v jednom dotazu.
+Rozdělení požadavků na možnosti facetů a samotné výsledky však poskytuje několik výhod.
+Každý z facetů si tak může držet svůj stav a konstruovat si \glref{SPARQL} query sám.
+Zároveň tak oddělíme načítání výsledků od facetů a vyhledávání tak může působit svižněji.
+
+
+\sec [srovnani-pristupu] Srovnání přístupů z hlediska sémantických technologií
+Způsobů jak implementovat facetové vyhledávání je mnoho, pro sémantická data je to však složitější.
+Většina řešení jako například zmíněný Elasticsearch nebo Solr nejdou pro sémantická data použít.
+Zbývají nám tedy pouze knihovny přímo pro sémantické facetové vyhledávání, těch je však minimum a jsou většinou staré, bez aktivního vývoje nebo závislé na platformě.
+To je případ i zmíněné SPARQL Faceter.
+Navrhnutí vlastního řešení se tak zdá být vhodné.
+
+Jak jsme zmínili v podsekci \ref[sparql], nejčastějším způsobem zpřístupnění sémantických dat je \glref{SPARQL} endpoint.
+Je tedy logické, aby sémantické facetové vyhledávání také používalo \glref{SPARQL} k získávání výsledků.
+S tím je pak ale nutné vyřešit jakým způsobem takovou \glref{SPARQL} query sestavovat.
+A pokud má být naše řešení přenositelné, jak vůbec takové vyhledávání konfigurovat, aby mělo nějaké rozhraní, ale zároveň umožňovalo komplexní možnosti vyhledávání.
+
+SPARQL Faceter toto řeší pomocí \uv{šablony} query, kterou v konfiguraci vytvoří uživatel.
+Tato šablona musí obsahovat klauzuli {\ssr <RESULT_SET>}, místo které pak knihovna doplní případné constraints facetů.
+Taková šablona může vypadat jako příklad níže~\cite[sparql-faceter-docs-handler].
+\begtt
+SELECT * WHERE {
+    <RESULT_SET>
+    OPTIONAL {
+        ?id rdfs:label ?name .
+        FILTER(langMatches(lang(?name), "en"))
+    }
+}
+\endtt
+
+To umožňuje uživateli stejně komplexní konfiguraci výsledků jako by ji zadával přímo na \glref{SPARQL} endpoint.
+
+Složitější je to však s konfigurací facetů.
+Nejjednoduším řešením je pouhé definování predikátu dle kterého bude facet filtrovat.
+Toto řešení používá i SPARQL Faceter.
+To je ovšem vhodné jen pro jednoduché facety, pro složitější už toto řešení aplikovat nejde.
+U složitějších je opět nutné skládat query, tentokrát z query pro výsledky a constraints ostatních facetů.

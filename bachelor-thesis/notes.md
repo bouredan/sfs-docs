@@ -20,20 +20,7 @@
 * Sampo-UI - https://github.com/SemanticComputing/sampo-ui
 
 ## Konzultace
-- návrh budoucí čas?
 
 ## TODO
-- přidat labely k listingům, ale nevím jak
-- ukazat network tab SFS vyhledávače
-- možná přidat sekci o Linked Data Fragments - potenciálně velmi vhodné využití pro faceto vyhledávání
-- dodělat unit testy na sfs-api a jejich sekci
 
 ## poznámky
-- mozna zminit gettery settery
-- možná přidat zmínku o principech oop
-
-
-(GROUP_CONCAT(?typeId) AS ?typeIds) (GROUP_CONCAT(?typeLabel) AS ?typeLabels)
-    (GROUP_CONCAT(?superClassId) AS ?superClassIds) (GROUP_CONCAT(?superClassLabel) AS ?superClassLabels)
-
-GROUP BY ?_id ?_label ?definition ?schemeId ?schemeLabel
